@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import Enum, auto
 
 
 class Exclusion(Enum):
-    EXCLUDED = 1
-    INCLUDED = 2
+    EXCLUDED = auto()
+    INCLUDED = auto()
