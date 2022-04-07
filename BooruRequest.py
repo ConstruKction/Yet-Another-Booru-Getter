@@ -11,7 +11,7 @@ class BooruRequest:
         self.api_url = GELBOORU_API_URL_TEMPLATE % (self.create_tags_string(tags), count)
 
     def get_json(self):
-        return json.loads(requests.get(self.api_url).text)
+        return json.loads(requests.get(self.api_url).text)['post']
 
     @staticmethod
     def create_tags_string(tags):
