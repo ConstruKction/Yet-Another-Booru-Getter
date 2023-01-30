@@ -43,7 +43,7 @@ class BooruImage:
             logging.error(f"Something went wrong while storing {self.filename}")
 
     def log_metadata(self, path):
-        tags = self.tags.replace(" ", ",")
+        tags = self.tags.replace(" ", ", ")
         log_file_name = f"{self.id_image}.txt"
         filepath = f"{path}/{log_file_name}"
 
