@@ -49,3 +49,4 @@ class BooruImage:
 
         with open(filepath, 'w') as f:
             f.write(f"{self.filename} {tags}\n")
+            f.close()
