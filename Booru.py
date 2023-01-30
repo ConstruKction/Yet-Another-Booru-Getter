@@ -54,7 +54,7 @@ def sanitize(string):
 
 
 def new_request(tags, exclude_tags, count, page_number, notified_dirs):
-    request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
+    booru_request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
                            create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
     target_directory_name = sanitize(f"{DATE}_{tags}")
@@ -70,7 +70,12 @@ def new_request(tags, exclude_tags, count, page_number, notified_dirs):
 
     local_images = get_local_files(target_directory_name)
 
-    for json_object in request.get_json():
+    req = booru_request.get_json()
+
+    if req is None:
+        return
+
+    for json_object in req:
         booru_image = BooruImage(json_object)
 
         file_found = False
@@ -88,7 +93,7 @@ def new_request(tags, exclude_tags, count, page_number, notified_dirs):
         if args.log:
             booru_image.log_metadata(target_directory_path)
 
-    return request
+    return booru_request
 
 
 if __name__ == "__main__":
@@ -109,5 +114,8 @@ if __name__ == "__main__":
     while args.all:
         booru_request = new_request(args.tags, args.exclude, args.count, page_number, notified_dirs)
         page_number = page_number + 1
+
+        if booru_request is None:
+            break
     else:
         booru_request = new_request(args.tags, args.exclude, args.count, 0, notified_dirs)
