@@ -104,11 +104,10 @@ if __name__ == "__main__":
         os.makedirs(target_directory_name)
         logging.info(f"Created directory {target_directory_name}.")
 
-    while args.all:
-        booru_request = new_request(args.tags, args.exclude, args.count, page_number, target_directory_path)
-        page_number = page_number + 1
-
-        if booru_request is None:
-            break
+    if not args.all:
+        new_request(args.tags, args.exclude, args.count, 0, target_directory_path)
     else:
-        booru_request = new_request(args.tags, args.exclude, args.count, 0, target_directory_path)
+        while True:
+            if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path) is None):
+                break
+            page_number = page_number + 1
