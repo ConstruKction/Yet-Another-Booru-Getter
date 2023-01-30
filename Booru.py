@@ -110,4 +110,4 @@ if __name__ == "__main__":
         booru_request = new_request(args.tags, args.exclude, args.count, page_number, notified_dirs)
         page_number = page_number + 1
     else:
-        booru_request = new_request(args.tags, args.exclude, args.count, 0)
+        booru_request = new_request(args.tags, args.exclude, args.count, 0, notified_dirs)

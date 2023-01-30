@@ -44,8 +44,8 @@ class BooruImage:
 
     def log_metadata(self, path):
         tags = self.tags.replace(" ", ",")
-        log_file_name = f"log_{DATE}.txt"
+        log_file_name = f"{self.id_image}.txt"
         filepath = f"{path}/{log_file_name}"
 
-        with open(filepath, 'a+') as f:
+        with open(filepath, 'w') as f:
             f.write(f"{self.filename} {tags}\n")
