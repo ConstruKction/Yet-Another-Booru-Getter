@@ -15,7 +15,10 @@ class BooruRequest:
         try:
             return json.loads(requests.get(self.api_url).text)['post']
         except requests.exceptions.RequestException as e:
-            raise SystemExit(e)
+            if e is not KeyError:
+                raise SystemExit(e)
+
+            raise SystemExit("No more posts found. Finished.")
 
     @staticmethod
     def create_tags_string(tags):

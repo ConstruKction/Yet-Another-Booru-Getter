@@ -1,6 +1,7 @@
 import os
 import pathlib
 import argparse
+import logging
 from datetime import datetime
 
 from BooruRequest import BooruRequest
@@ -11,6 +12,8 @@ from Tag import Tag
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
 DATE = datetime.now().strftime('%Y_%m_%d')
+
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
 def get_local_files(directory_path):
@@ -23,9 +26,9 @@ def get_local_files(directory_path):
 
 def print_filename_exists_message(booru_image_filename, local_image_filename):
     if booru_image_filename != local_image_filename:
-        print(f"{booru_image_filename} exists as {local_image_filename}")
+        logging.info(f"{booru_image_filename} exists as {local_image_filename}")
     else:
-        print(f"{booru_image_filename} exists")
+        logging.info(f"{booru_image_filename} exists")
 
 
 def create_tag_object_list(tags_string, exclude):
@@ -60,7 +63,7 @@ def new_request(tags, exclude_tags, count, page_number):
     try:
         os.makedirs(target_directory_name)
     except FileExistsError:
-        print(f"{target_directory_name} directory exists, storing there")
+        logging.info(f"{target_directory_name} directory exists, storing there.")
         pass
 
     local_images = get_local_files(target_directory_name)
@@ -99,4 +102,3 @@ if __name__ == "__main__":
         page_number = page_number + 1
     else:
         booru_request = new_request(args.tags, args.exclude, args.count, 0)
-

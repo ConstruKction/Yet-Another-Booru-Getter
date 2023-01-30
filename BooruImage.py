@@ -1,4 +1,5 @@
 import re
+import logging
 from http import HTTPStatus
 
 import requests
@@ -21,7 +22,7 @@ class BooruImage:
         progress_bar = tqdm(total=expected_size, unit='B', unit_scale=True, desc=self.filename)
 
         if response.status_code != HTTPStatus.OK:
-            print(f"Download error {response.status_code}")
+            logging.error(response.status_code)
             return
 
         filepath = f"{path}/{self.filename}"
@@ -36,4 +37,4 @@ class BooruImage:
         progress_bar.close()
 
         if expected_size != 0 and progress_bar.n != expected_size:
-            print(f"Something went wrong while storing {self.filename}")
+            logging.error(f"Something went wrong while storing {self.filename}")
