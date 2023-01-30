@@ -53,7 +53,7 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, page_number):
+def new_request(tags, exclude_tags, count, page_number, notified_dirs):
     request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
                            create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
@@ -63,7 +63,9 @@ def new_request(tags, exclude_tags, count, page_number):
     try:
         os.makedirs(target_directory_name)
     except FileExistsError:
-        logging.info(f"{target_directory_name} directory exists, storing there.")
+        if target_directory_name not in notified_dirs:
+            logging.info(f"{target_directory_name} directory exists, storing there.")
+            notified_dirs.append(target_directory_name)
         pass
 
     local_images = get_local_files(target_directory_name)
@@ -94,11 +96,13 @@ if __name__ == "__main__":
     parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
                         action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
+    
+    notified_dirs = []
 
     page_number = 0
 
     while args.all:
-        booru_request = new_request(args.tags, args.exclude, args.count, page_number)
+        booru_request = new_request(args.tags, args.exclude, args.count, page_number, notified_dirs)
         page_number = page_number + 1
     else:
         booru_request = new_request(args.tags, args.exclude, args.count, 0)
