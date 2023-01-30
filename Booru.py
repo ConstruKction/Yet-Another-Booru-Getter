@@ -53,29 +53,16 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, page_number, notified_dirs):
+def new_request(tags, exclude_tags, count, page_number, target_directory_path):
     booru_request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
-                           create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
+                                 create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
-    target_directory_name = sanitize(f"{DATE}_{tags}")
-    target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
+    local_images = get_local_files(target_directory_path)
 
-    try:
-        os.makedirs(target_directory_name)
-    except FileExistsError:
-        if target_directory_name not in notified_dirs:
-            logging.info(f"{target_directory_name} directory exists, storing there.")
-            notified_dirs.append(target_directory_name)
-        pass
-
-    local_images = get_local_files(target_directory_name)
-
-    req = booru_request.get_json()
-
-    if req is None:
+    r = booru_request.get_json()
+    if r is None:
         return
-
-    for json_object in req:
+    for json_object in r:
         booru_image = BooruImage(json_object)
 
         file_found = False
@@ -107,15 +94,21 @@ if __name__ == "__main__":
                         action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
-    notified_dirs = []
-
     page_number = 0
+    target_directory_name = sanitize(f"{DATE}_{args.tags}")
+    target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
+
+    if pathlib.Path(target_directory_name).exists():
+        logging.info(f"{target_directory_name} directory exists. Storing there.")
+    else:
+        os.makedirs(target_directory_name)
+        logging.info(f"Created directory {target_directory_name}.")
 
     while args.all:
-        booru_request = new_request(args.tags, args.exclude, args.count, page_number, notified_dirs)
+        booru_request = new_request(args.tags, args.exclude, args.count, page_number, target_directory_path)
         page_number = page_number + 1
 
         if booru_request is None:
             break
     else:
-        booru_request = new_request(args.tags, args.exclude, args.count, 0, notified_dirs)
+        booru_request = new_request(args.tags, args.exclude, args.count, 0, target_directory_path)
