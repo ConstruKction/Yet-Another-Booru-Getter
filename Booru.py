@@ -50,17 +50,11 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--tags', help='tags split by a comma (e.g. cute,vanilla)')
-    parser.add_argument('-e', '--exclude', help='tags to exclude split by a comma')
-    parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
-    args = parser.parse_args()
+def new_request(tags, exclude_tags, count, page_number):
+    request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
+                           create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
-    booru_request = BooruRequest(create_tag_object_list(args.tags, Exclusion.INCLUDED) +
-                                 create_tag_object_list(args.exclude, Exclusion.EXCLUDED), args.count)
-
-    target_directory_name = sanitize(f"{DATE}_{args.tags}")
+    target_directory_name = sanitize(f"{DATE}_{tags}")
     target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
 
     try:
@@ -71,7 +65,7 @@ if __name__ == "__main__":
 
     local_images = get_local_files(target_directory_name)
 
-    for json_object in booru_request.get_json():
+    for json_object in request.get_json():
         booru_image = BooruImage(json_object)
 
         file_found = False
@@ -85,3 +79,24 @@ if __name__ == "__main__":
             continue
 
         booru_image.download(target_directory_path)
+
+    return request
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', '--tags', help='tags split by a comma (e.g. cute,vanilla)')
+    parser.add_argument('-e', '--exclude', help='tags to exclude split by a comma')
+    parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
+    parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
+                        action=argparse.BooleanOptionalAction)
+    args = parser.parse_args()
+
+    page_number = 0
+
+    while args.all:
+        booru_request = new_request(args.tags, args.exclude, args.count, page_number)
+        page_number = page_number + 1
+    else:
+        booru_request = new_request(args.tags, args.exclude, args.count, 0)
+
