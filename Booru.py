@@ -4,7 +4,7 @@ import argparse
 import logging
 from datetime import datetime
 
-from BooruRequest import BooruRequest
+from GelbooruRequest import GelbooruRequest
 from DanbooruRequest import DanbooruRequest
 from Exclusion import Exclusion
 from LocalImage import LocalImage
@@ -55,15 +55,15 @@ def sanitize(string):
 
 
 def new_request(tags, exclude_tags, count, page_number, target_directory_path):
-    booru_request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
-                                 create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
+    gelbooru_request = GelbooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
+                                    create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
 #    danbooru_request = DanbooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
 #                                    create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
     local_images = get_local_files(target_directory_path)
 
-    r = booru_request.get_json()
+    r = gelbooru_request.get_json()
     if r is None:
         return
     for json_object in r:
@@ -84,7 +84,7 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path):
         if args.log:
             booru_image.log_metadata(target_directory_path)
 
-    return booru_request
+    return gelbooru_request
 
 
 if __name__ == "__main__":
