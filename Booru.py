@@ -5,6 +5,7 @@ import logging
 from datetime import datetime
 
 from BooruRequest import BooruRequest
+from DanbooruRequest import DanbooruRequest
 from Exclusion import Exclusion
 from LocalImage import LocalImage
 from BooruImage import BooruImage
@@ -57,6 +58,9 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path):
     booru_request = BooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
                                  create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
 
+#    danbooru_request = DanbooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
+#                                    create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
+
     local_images = get_local_files(target_directory_path)
 
     r = booru_request.get_json()
@@ -88,10 +92,10 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--tags', help='tags split by a comma (e.g. cute,vanilla)')
     parser.add_argument('-e', '--exclude', help='tags to exclude split by a comma')
     parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
-    parser.add_argument('-l', '--log', help='log filenames with their respective tags in a txt file', default=False,
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
-                        action=argparse.BooleanOptionalAction)
+    parser.add_argument('-l', '--log', help='log filenames with their respective tags in a txt file', default=False)
+    parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False)
+#    parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
+#                        nargs='+', default=[])
     args = parser.parse_args()
 
     page_number = 0
