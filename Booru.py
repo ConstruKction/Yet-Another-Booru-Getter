@@ -4,12 +4,13 @@ import argparse
 import logging
 from datetime import datetime
 
-from GelbooruRequest import GelbooruRequest
-from DanbooruRequest import DanbooruRequest
+from requests.GelbooruRequest import GelbooruRequest
+from requests.DanbooruRequest import DanbooruRequest
 from Exclusion import Exclusion
 from LocalImage import LocalImage
 from BooruImage import BooruImage
 from Tag import Tag
+from requests.RequestFactory import RequestFactory
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
 DATE = datetime.now().strftime('%Y_%m_%d')
@@ -54,16 +55,19 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, page_number, target_directory_path):
-    gelbooru_request = GelbooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
-                                    create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
+def new_request(tags, exclude_tags, count, page_number, target_directory_path, source):
+    # Here, I guess the logic below would be repeated for each source.
+    # Anyway, what you may want to do is something like:
+    request_factory = RequestFactory()
+    request_obj = request_factory.get_request(source)
 
-#    danbooru_request = DanbooruRequest(create_tag_object_list(tags, Exclusion.INCLUDED) +
-#                                    create_tag_object_list(exclude_tags, Exclusion.EXCLUDED), count, page_number)
+    # and here, the code would work the same way no matter if it's gelbooru or danbooru
+    tags = create_tag_object_list(tags, Exclusion.INCLUDED) + create_tag_object_list(exclude_tags, Exclusion.EXCLUDED)
+    request = request_obj(tags, count, page_number)
 
     local_images = get_local_files(target_directory_path)
 
-    r = gelbooru_request.get_json()
+    r = request.get_json()
     if r is None:
         return
     for json_object in r:
@@ -84,7 +88,7 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path):
         if args.log:
             booru_image.log_metadata(target_directory_path)
 
-    return gelbooru_request
+    return request
 
 
 if __name__ == "__main__":
@@ -94,9 +98,11 @@ if __name__ == "__main__":
     parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
     parser.add_argument('-l', '--log', help='log filenames with their respective tags in a txt file', default=False)
     parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False)
-#    parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
-#                        nargs='+', default=[])
+    parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
+                        nargs='+', default=[])
     args = parser.parse_args()
+
+
 
     page_number = 0
     target_directory_name = sanitize(f"{DATE}_{args.tags}")
@@ -108,10 +114,11 @@ if __name__ == "__main__":
         os.makedirs(target_directory_name)
         logging.info(f"Created directory {target_directory_name}.")
 
-    if not args.all:
-        new_request(args.tags, args.exclude, args.count, 0, target_directory_path)
-    else:
-        while True:
-            if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path) is None):
-                break
-            page_number = page_number + 1
+    for source in args.sources:
+        if not args.all:
+            new_request(args.tags, args.exclude, args.count, 0, target_directory_path, source)
+        else:
+            while True:
+                if new_request(args.tags, args.exclude, args.count, page_number, target_directory_path) is None:
+                    break
+                page_number = page_number + 1

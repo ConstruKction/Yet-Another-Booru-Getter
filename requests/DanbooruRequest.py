@@ -3,10 +3,12 @@ import logging
 
 import requests
 
+import RequestInterface
+
 DANBOORU_API_URL_TEMPLATE = "https://danbooru.donmai.us/posts.json?tags=%s&limit=%s&page=%s"
 
 
-class DanbooruRequest:
+class DanbooruRequest(RequestInterface):
     def __init__(self, tags, count, page_number):
         self.page_number = page_number
         self.api_url = DANBOORU_API_URL_TEMPLATE % (self.create_tags_string(tags), count, self.page_number)
