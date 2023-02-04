@@ -138,4 +138,4 @@ if __name__ == "__main__":
             if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path,
                             source) is None):
                 break
-            page_number = page_number + 1
+            page_number += 1
