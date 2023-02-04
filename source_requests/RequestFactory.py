@@ -3,6 +3,7 @@ import logging
 from source_requests.DanbooruRequest import DanbooruRequest
 from source_requests.GelbooruRequest import GelbooruRequest
 from source_requests.KonachanRequest import KonachanRequest
+from source_requests.SafebooruRequest import SafebooruRequest
 
 
 class RequestFactory:
@@ -14,5 +15,7 @@ class RequestFactory:
             return DanbooruRequest
         elif source_name == 'konachan':
             return KonachanRequest
+        elif source_name == 'safebooru':
+            return SafebooruRequest
         else:
             return logging.error(f"Unsupported source: {source_name}!")

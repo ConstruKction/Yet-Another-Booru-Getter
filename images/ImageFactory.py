@@ -1,6 +1,7 @@
 from images.DanbooruImage import DanbooruImage
 from images.GelbooruImage import GelbooruImage
 from images.KonachanImage import KonachanImage
+from images.SafebooruImage import SafebooruImage
 
 
 class ImageFactory:
@@ -12,5 +13,7 @@ class ImageFactory:
             return DanbooruImage
         elif source_name == 'konachan':
             return KonachanImage
+        elif source_name == 'safebooru':
+            return SafebooruImage
         else:
             return
