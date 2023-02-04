@@ -132,10 +132,9 @@ if __name__ == "__main__":
         if not args.all:
             logging.info(f"Current source: {source}.")
             new_request(args.tags, args.exclude, args.count, 0, target_directory_path, source)
-            break
-
-        while True:
-            if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path,
-                            source) is None):
-                break
-            page_number += 1
+        else:
+            while True:
+                if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path,
+                                source) is None):
+                    break
+                page_number += 1
