@@ -11,6 +11,10 @@ class ImageDownloader:
         self.filename = filename
 
     def download(self):
+        if not self.url:
+            logging.error(f"No URL present for {self.filename} in the API response!")
+            return
+
         response = requests.get(self.url, stream=True)
         expected_size = int(response.headers.get('content-length', 0))
         progress_bar = tqdm(total=expected_size, unit='B', unit_scale=True, desc=self.filename)
