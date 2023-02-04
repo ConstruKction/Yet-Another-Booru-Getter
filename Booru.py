@@ -7,7 +7,7 @@ from datetime import datetime
 from BooruImage import BooruImage
 from Exclusion import Exclusion
 from LocalImage import LocalImage
-from SplitArgs import SplitArgs
+from SplitArguments import SplitArguments
 from Tag import Tag
 from source_requests.RequestFactory import RequestFactory
 
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
                         action=argparse.BooleanOptionalAction)
     parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
-                        action=SplitArgs)
+                        action=SplitArguments)
     args = parser.parse_args()
 
     page_number = 0
