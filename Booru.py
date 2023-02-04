@@ -4,8 +4,7 @@ import argparse
 import logging
 from datetime import datetime
 
-from GelbooruRequest import GelbooruRequest
-from DanbooruRequest import DanbooruRequest
+from source_requests.GelbooruRequest import GelbooruRequest
 from Exclusion import Exclusion
 from LocalImage import LocalImage
 from BooruImage import BooruImage
