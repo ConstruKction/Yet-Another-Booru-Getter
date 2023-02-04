@@ -129,8 +129,9 @@ if __name__ == "__main__":
         logging.info(f"Created directory {target_directory_name}.")
 
     for source in args.sources:
+        logging.info(f"Current source: {source}.")
+
         if not args.all:
-            logging.info(f"Current source: {source}.")
             new_request(args.tags, args.exclude, args.count, 0, target_directory_path, source)
         else:
             while True:
