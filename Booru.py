@@ -2,6 +2,7 @@ import argparse
 import logging
 import os
 import pathlib
+import sys
 from datetime import datetime
 
 from Exclusion import Exclusion
@@ -109,6 +110,10 @@ if __name__ == "__main__":
     parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
                         action=SplitArguments)
     args = parser.parse_args()
+
+    if len(sys.argv) == 1:
+        parser.print_help(sys.stderr)
+        sys.exit()
 
     if args.log:
         logging.info("Logging metadata enabled.")
