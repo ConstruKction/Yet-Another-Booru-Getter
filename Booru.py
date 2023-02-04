@@ -58,6 +58,9 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path, s
     request_factory = RequestFactory()
     request_object = request_factory.get_request(source)
 
+    if not request_object:
+        return
+
     tags = create_tag_object_list(tags, Exclusion.INCLUDED) + create_tag_object_list(exclude_tags, Exclusion.EXCLUDED)
 
     request = request_object(tags, count, page_number)
@@ -70,6 +73,9 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path, s
     for json_object in r:
         image_factory = ImageFactory()
         image_object = image_factory.get_image(source)
+
+        if not image_object:
+            return
 
         image = image_object(json_object)
 
