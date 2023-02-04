@@ -1,9 +1,8 @@
 import hashlib
 
-
 class LocalImage:
     def __init__(self, filepath):
-        self.filename = filepath.split('/')[1]
+        self.filename = filepath.split('/')[2]
         self.hash = self.calculate_hash(filepath)
 
     @staticmethod

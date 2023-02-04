@@ -6,16 +6,18 @@ from datetime import datetime
 import requests
 from tqdm import tqdm
 
+from images.ImageInterface import ImageInterface
+
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 DATE = datetime.now().strftime('%Y_%m_%d')
 
 
-class BooruImage:
+class DanbooruImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
-        self.url = json_dict.get('file_url')
-        self.hash = json_dict.get('hash')
-        self.tags = json_dict.get('tags')
+        self.url = json_dict.get('large_file_url')
+        self.hash = json_dict.get('md5')
+        self.tags = json_dict.get('tag_string')
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 

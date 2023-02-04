@@ -4,11 +4,11 @@ import os
 import pathlib
 from datetime import datetime
 
-from BooruImage import BooruImage
 from Exclusion import Exclusion
-from LocalImage import LocalImage
 from SplitArguments import SplitArguments
 from Tag import Tag
+from images.ImageFactory import ImageFactory
+from images.LocalImage import LocalImage
 from source_requests.RequestFactory import RequestFactory
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
@@ -68,22 +68,25 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path, s
     if r is None:
         return
     for json_object in r:
-        booru_image = BooruImage(json_object)
+        image_factory = ImageFactory()
+        image_object = image_factory.get_image(source)
+
+        image = image_object(json_object)
 
         file_found = False
 
         for local_image in local_images:
-            if local_image.hash == booru_image.hash:
-                print_filename_exists_message(booru_image.filename, local_image.filename)
+            if local_image.hash == image.hash:
+                print_filename_exists_message(image.filename, local_image.filename)
                 file_found = True
 
         if file_found:
             continue
 
-        booru_image.download(target_directory_path)
+        image.download(target_directory_path)
 
         if args.log:
-            booru_image.log_metadata(target_directory_path)
+            image.log_metadata(target_directory_path)
 
     return request
 
