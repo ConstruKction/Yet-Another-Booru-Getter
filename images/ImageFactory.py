@@ -1,6 +1,7 @@
 from images.DanbooruImage import DanbooruImage
 from images.GelbooruImage import GelbooruImage
 from images.KonachanImage import KonachanImage
+from images.LolibooruImage import LolibooruImage
 from images.SafebooruImage import SafebooruImage
 from images.YandereImage import YandereImage
 
@@ -18,5 +19,7 @@ class ImageFactory:
             return SafebooruImage
         elif source_name == 'yandere' or source_name == 'yande.re':
             return YandereImage
+        elif source_name == 'lolibooru':
+            return LolibooruImage
         else:
             return
