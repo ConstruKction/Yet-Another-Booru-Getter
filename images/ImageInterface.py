@@ -1,5 +1,5 @@
 class ImageInterface:
-    def download(self, path):
+    def download(self, path, tags):
         raise NotImplementedError
 
     def log_metadata(self, path):

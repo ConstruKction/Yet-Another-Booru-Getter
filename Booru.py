@@ -90,7 +90,7 @@ def new_request(tags, exclude_tags, count, page_number, target_directory_path, s
         if file_found:
             continue
 
-        image.download(target_directory_path)
+        image.download(target_directory_path, tags)
 
         if args.log:
             image.log_metadata(target_directory_path)

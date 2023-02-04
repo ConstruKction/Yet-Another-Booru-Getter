@@ -1,3 +1,4 @@
+from Exclusion import Exclusion
 from ImageDownloader import ImageDownloader
 from MetadataLogger import MetadataLogger
 from images.ImageInterface import ImageInterface
@@ -17,7 +18,14 @@ class DanbooruImage(ImageInterface):
         self.extension = json_dict.get('file_ext')
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path):
+    def download(self, path, tags):
+        for tag in tags:
+            if tag.value not in self.tags and tag.exclude == Exclusion.INCLUDED:
+                return
+
+            if tag.value in self.tags and tag.exclude == Exclusion.EXCLUDED:
+                return
+
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()

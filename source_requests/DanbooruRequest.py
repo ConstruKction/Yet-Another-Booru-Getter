@@ -24,7 +24,12 @@ class DanbooruRequest(RequestInterface):
     @staticmethod
     def create_tags_string(tags):
         tags_string = ''
-        for tag in tags:
-            tags_string = f"{tags_string}{tag}+"
+
+        if len(tags) > 2:
+            for tag in tags[:2]:
+                tags_string = f"{tags_string}{tag}+"
+        else:
+            for tag in tags:
+                tags_string = f"{tags_string}{tag}+"
 
         return tags_string

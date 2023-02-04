@@ -20,7 +20,7 @@ class KonachanImage(ImageInterface):
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path):
+    def download(self, path, tags):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
