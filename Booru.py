@@ -104,6 +104,9 @@ if __name__ == "__main__":
                         action=SplitArguments)
     args = parser.parse_args()
 
+    if args.log:
+        logging.info("Logging metadata enabled.")
+
     page_number = 0
     target_directory_name = sanitize(f"{DATE}_{args.tags}")
     target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"

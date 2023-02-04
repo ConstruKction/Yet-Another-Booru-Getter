@@ -1,11 +1,6 @@
-import re
-from datetime import datetime
-
 from ImageDownloader import ImageDownloader
+from MetadataLogger import MetadataLogger
 from images.ImageInterface import ImageInterface
-
-FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
-DATE = datetime.now().strftime('%Y_%m_%d')
 
 
 class DanbooruImage(ImageInterface):
@@ -14,7 +9,12 @@ class DanbooruImage(ImageInterface):
         self.url = json_dict.get('large_file_url')
         self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tag_string')
-        self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
+        self.source = json_dict.get('source')
+        self.artists = json_dict.get('tag_string_artist')
+        self.rating = json_dict.get('rating')
+        self.width = json_dict.get('image_width')
+        self.height = json_dict.get('image_height')
+        self.extension = json_dict.get('file_ext')
         self.filename = f"{self.id_image}.{self.extension}"
 
     def download(self, path):
@@ -22,11 +22,20 @@ class DanbooruImage(ImageInterface):
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
 
-    def log_metadata(self, path):
-        tags = self.tags.replace(" ", ", ")
-        log_file_name = f"{self.id_image}.txt"
-        filepath = f"{path}/{log_file_name}"
+    def get_metadata(self):
+        metadata_items = [
+            f"url: {self.url}",
+            f"md5: {self.hash}",
+            f"tags: {self.tags.replace(' ', ',')}",
+            f"source: {self.source}",
+            f"artists: {self.artists.replace(' ', ',')}",
+            f"rating: {self.rating}",
+            f"width: {self.width}",
+            f"height: {self.height}",
+            f"extension: {self.extension}"
+        ]
+        return metadata_items
 
-        with open(filepath, 'w') as f:
-            f.write(f"{self.filename} {tags}\n")
-            f.close()
+    def log_metadata(self, path):
+        metadata_logger = MetadataLogger(path, self.id_image, self.filename, self.get_metadata())
+        metadata_logger.log_metadata()

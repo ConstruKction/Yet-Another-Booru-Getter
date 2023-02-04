@@ -4,7 +4,7 @@ from http import HTTPStatus
 import requests
 
 from tqdm import tqdm
-class ImageDownloader():
+class ImageDownloader:
     def __init__(self, url, path, filename):
         self.url = url
         self.download_path = path
