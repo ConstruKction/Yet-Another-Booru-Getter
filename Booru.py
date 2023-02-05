@@ -41,6 +41,7 @@ def create_tag_object_list(tags_string, exclude):
     for tag_value in tags_string.split(","):
         tag_object = Tag(tag_value, exclude)
         tag_object_list.append(tag_object)
+
     return tag_object_list
 
 
@@ -85,6 +86,8 @@ def new_request(tags, exclude_tags, count, target_directory_path, source, increm
 
         image = image_object(json_object)
 
+        image.rating = image_factory.get_safety_rating(source, image.rating)
+
         file_found = False
 
         for local_image in local_images:
@@ -95,10 +98,17 @@ def new_request(tags, exclude_tags, count, target_directory_path, source, increm
         if file_found:
             continue
 
+        if args.safe_for_work and image.rating == 'nsfw':
+            logging.info(f"Image {image.filename} is NSFW -> skipping")
+            continue
+
+        if args.not_safe_for_work and image.rating == 'sfw':
+            logging.info(f"Image {image.filename} is SFW -> skipping")
+            continue
+
         image.download(target_directory_path, tags)
 
         if args.log:
-            image.rating = image_factory.get_safety_rating(source, image.rating)
             image.log_metadata(target_directory_path)
 
     return request
@@ -115,11 +125,25 @@ if __name__ == "__main__":
                         action=argparse.BooleanOptionalAction)
     parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
                         action=SplitArguments)
+    parser.add_argument('-sfw', '--safe-for-work', help='download only sfw images', default=False,
+                        action=argparse.BooleanOptionalAction)
+    parser.add_argument('-nsfw', '--not-safe-for-work', help='download only nsfw images', default=False,
+                        action=argparse.BooleanOptionalAction)
     args = parser.parse_args()
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
         sys.exit()
+
+    if args.safe_for_work and args.not_safe_for_work:
+        logging.error("Both SFW and NSFW arguments found. Please pick only one or neither.")
+        sys.exit()
+
+    if args.safe_for_work:
+        logging.info("SFW Mode Enabled")
+
+    if args.not_safe_for_work:
+        logging.info("NSFW Mode Enabled")
 
     if args.log:
         logging.info("Logging metadata enabled.")
