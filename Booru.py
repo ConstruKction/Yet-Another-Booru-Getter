@@ -55,9 +55,14 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, page_number, target_directory_path, source):
+def new_request(tags, exclude_tags, count, target_directory_path, source, increment_number):
     request_factory = RequestFactory()
     request_object = request_factory.get_request(source)
+
+    page_number = request_factory.get_default_first_page(source)
+
+    if args.all:
+        page_number += increment_number
 
     if not request_object:
         return
@@ -118,7 +123,7 @@ if __name__ == "__main__":
     if args.log:
         logging.info("Logging metadata enabled.")
 
-    page_number = 0
+    increment_number = 0
     target_directory_name = sanitize(f"{DATE}_{args.tags}")
     target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
 
@@ -132,10 +137,10 @@ if __name__ == "__main__":
         logging.info(f"Current source: {source}.")
 
         if not args.all:
-            new_request(args.tags, args.exclude, args.count, 0, target_directory_path, source)
+            new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
         else:
             while True:
-                if (new_request(args.tags, args.exclude, args.count, page_number, target_directory_path,
-                                source) is None):
+                if (new_request(args.tags, args.exclude, args.count, target_directory_path, source,
+                                increment_number) is None):
                     break
-                page_number += 1
+                increment_number += 1
