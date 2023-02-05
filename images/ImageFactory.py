@@ -30,3 +30,20 @@ class ImageFactory:
             return LolibooruImage
         else:
             return
+
+    @staticmethod
+    def get_safety_rating(source_name, rating):
+        if source_name == 'gelbooru':
+            return 'sfw' if rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'danbooru':
+            return 'sfw' if rating not in DANBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'konachan':
+            return 'sfw' if rating not in KONACHAN_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'safebooru':
+            return 'sfw' if rating not in SAFEBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'yandere' or source_name == 'yande.re':
+            return 'sfw' if rating not in YANDERE_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'lolibooru':
+            return 'sfw' if rating not in LOLIBOORU_NSFW_RATINGS else 'nsfw'
+        else:
+            return
