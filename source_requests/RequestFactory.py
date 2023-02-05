@@ -25,3 +25,20 @@ class RequestFactory:
             return LolibooruRequest
         else:
             return logging.error(f"Unsupported source: {source_name}!")
+
+    @staticmethod
+    def get_default_first_page(source_name):
+        if source_name == 'gelbooru':
+            return 0
+        elif source_name == 'danbooru':
+            return 1
+        elif source_name == 'konachan':
+            return 1
+        elif source_name == 'safebooru':
+            return 0
+        elif source_name == 'yandere' or source_name == 'yande.re':
+            return 1
+        elif source_name == 'lolibooru':
+            return 1
+        else:
+            return 0
