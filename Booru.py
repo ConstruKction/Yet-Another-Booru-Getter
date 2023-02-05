@@ -55,18 +55,21 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, target_directory_path, source):
+def new_request(tags, exclude_tags, count, target_directory_path, source, increment_number):
     request_factory = RequestFactory()
     request_object = request_factory.get_request(source)
 
-    default_first_page = request_factory.get_default_first_page(source)
+    page_number = request_factory.get_default_first_page(source)
+
+    if args.all:
+        page_number += increment_number
 
     if not request_object:
         return
 
     tags = create_tag_object_list(tags, Exclusion.INCLUDED) + create_tag_object_list(exclude_tags, Exclusion.EXCLUDED)
 
-    request = request_object(tags, count, default_first_page)
+    request = request_object(tags, count, page_number)
 
     local_images = get_local_files(target_directory_path)
 
@@ -120,7 +123,7 @@ if __name__ == "__main__":
     if args.log:
         logging.info("Logging metadata enabled.")
 
-    page_number = 0
+    increment_number = 0
     target_directory_name = sanitize(f"{DATE}_{args.tags}")
     target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
 
@@ -134,10 +137,10 @@ if __name__ == "__main__":
         logging.info(f"Current source: {source}.")
 
         if not args.all:
-            new_request(args.tags, args.exclude, args.count, target_directory_path, source)
+            new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
         else:
             while True:
-                if (new_request(args.tags, args.exclude, args.count, target_directory_path,
-                                source) is None):
+                if (new_request(args.tags, args.exclude, args.count, target_directory_path, source,
+                                increment_number) is None):
                     break
-                page_number += 1
+                increment_number += 1
