@@ -5,6 +5,13 @@ from images.LolibooruImage import LolibooruImage
 from images.SafebooruImage import SafebooruImage
 from images.YandereImage import YandereImage
 
+GELBOORU_NSFW_RATINGS = ['explicit', 'questionable', 'sensitive']
+DANBOORU_NSFW_RATINGS = ['e', 'q', 's']
+KONACHAN_NSFW_RATINGS = ['e', 'q']
+LOLIBOORU_NSFW_RATINGS = ['e', 'q']
+SAFEBOORU_NSFW_RATINGS = ['questionable']
+YANDERE_NSFW_RATINGS = ['e', 'q']
+
 
 class ImageFactory:
     @staticmethod
@@ -21,5 +28,22 @@ class ImageFactory:
             return YandereImage
         elif source_name == 'lolibooru':
             return LolibooruImage
+        else:
+            return
+
+    @staticmethod
+    def get_safety_rating(source_name, rating):
+        if source_name == 'gelbooru':
+            return 'sfw' if rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'danbooru':
+            return 'sfw' if rating not in DANBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'konachan':
+            return 'sfw' if rating not in KONACHAN_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'safebooru':
+            return 'sfw' if rating not in SAFEBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'yandere' or source_name == 'yande.re':
+            return 'sfw' if rating not in YANDERE_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'lolibooru':
+            return 'sfw' if rating not in LOLIBOORU_NSFW_RATINGS else 'nsfw'
         else:
             return

@@ -98,6 +98,7 @@ def new_request(tags, exclude_tags, count, target_directory_path, source, increm
         image.download(target_directory_path, tags)
 
         if args.log:
+            image.rating = image_factory.get_safety_rating(source, image.rating)
             image.log_metadata(target_directory_path)
 
     return request
