@@ -1,6 +1,3 @@
-import logging
-
-
 class MetadataLogger:
     def __init__(self, path, id_image, filename, metadata):
         self.path = path

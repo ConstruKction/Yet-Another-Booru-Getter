@@ -2,8 +2,9 @@ import logging
 from http import HTTPStatus
 
 import requests
-
 from tqdm import tqdm
+
+
 class ImageDownloader:
     def __init__(self, url, path, filename):
         self.url = url
@@ -12,7 +13,7 @@ class ImageDownloader:
 
     def download(self):
         if not self.url:
-            logging.error(f"No URL present for {self.filename} in the API response!")
+            logging.error(f"No URL present for {self.filename} in the API self!")
             return
 
         response = requests.get(self.url, stream=True)

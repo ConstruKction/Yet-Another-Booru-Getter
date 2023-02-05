@@ -1,4 +1,5 @@
 from Exclusion import Exclusion
+from tag_requests.DanbooruTagRequest import DanbooruTagRequest
 
 
 class Tag:
@@ -11,3 +12,10 @@ class Tag:
             return f"-{self.value}"
 
         return f"{self.value}"
+
+    def get_danbooru_tag_post_count(self):
+        tag_request = DanbooruTagRequest(self.value)
+        tag_request = tag_request.get_json()
+        danbooru_tag_post_count = tag_request['post_count']
+
+        return danbooru_tag_post_count

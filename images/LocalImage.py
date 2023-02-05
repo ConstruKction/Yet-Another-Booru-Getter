@@ -1,5 +1,6 @@
 import hashlib
 
+
 class LocalImage:
     def __init__(self, filepath):
         self.filename = filepath.split('/')[2]

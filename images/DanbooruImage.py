@@ -7,7 +7,7 @@ from images.ImageInterface import ImageInterface
 class DanbooruImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
-        self.url = json_dict.get('large_file_url')
+        self.url = json_dict.get('file_url')
         self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tag_string')
         self.source = json_dict.get('source')
