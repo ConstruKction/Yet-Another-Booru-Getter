@@ -14,7 +14,12 @@ class SafebooruRequest(RequestInterface):
         self.api_url = SAFEBOORU_API_URL_TEMPLATE % (self.create_tags_string(tags), count, self.page_number)
 
     def get_json(self):
-        response_json = json.loads(requests.get(self.api_url).text)
+        r = requests.get(self.api_url).text
+        if len(r) == 0:
+            logging.info("No more posts found. Finished.")
+            return
+
+        response_json = json.loads(r)
         if len(response_json) == 0:
             logging.info("No more posts found. Finished.")
             return
