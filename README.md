@@ -4,7 +4,7 @@ YABG is a CLI program that downloads images from some of the most famous boorus.
 
 Currently supported boorus:
 - Gelbooru
-- Danbooru (**no tag limit!**)
+- Danbooru
 - Konachan
 - Safebooru
 - Lolibooru
@@ -17,7 +17,7 @@ I'll try to support as many boorus as possible in the future. Feel free to creat
 - Skip already downloaded images based on image md5
 - Multiple tag search (both include and exclude)
 - Optional metadata logging per image into a txt file (off by default)
-- Works with more than two tags at a time for Danbooru without the need for an account
+- Works with more than two tags at a time for Danbooru without the need for an account. Note however that the operation is much slower when querying more than two tags at a time due to Danbooru API limitations (must complete query within 3s or else timeout, so the downloader has to retry quite often).
 ## Usage/Examples
 
 ```bash
