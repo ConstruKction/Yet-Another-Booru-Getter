@@ -48,5 +48,5 @@ Booru.py -t hatsune_miku -l -s gelbooru
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 ## Screenshots
 
-<img src="https://raw.githubusercontent.com/ConstruKction/booru_getter/master/screenshots/booru_getter.png" width="600" height="300" />
+<img src="https://raw.githubusercontent.com/ConstruKction/booru_getter/master/screenshots/booru_getter.png"/>
 
