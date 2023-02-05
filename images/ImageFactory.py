@@ -5,6 +5,13 @@ from images.LolibooruImage import LolibooruImage
 from images.SafebooruImage import SafebooruImage
 from images.YandereImage import YandereImage
 
+GELBOORU_NSFW_RATINGS = ['explicit, questionable, sensitive']
+DANBOORU_NSFW_RATINGS = ['e, q, s']
+KONACHAN_NSFW_RATINGS = ['e, q']
+LOLIBOORU_NSFW_RATINGS = ['e, q']
+SAFEBOORU_NSFW_RATINGS = ['questionable']
+YANDERE_NSFW_RATINGS = ['e, q']
+
 
 class ImageFactory:
     @staticmethod
