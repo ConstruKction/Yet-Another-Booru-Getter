@@ -6,6 +6,7 @@ from source_requests.KonachanRequest import KonachanRequest
 from source_requests.LolibooruRequest import LolibooruRequest
 from source_requests.SafebooruRequest import SafebooruRequest
 from source_requests.YandereRequest import YandereRequest
+from source_requests.ZerochanRequest import ZerochanRequest
 
 
 class RequestFactory:
@@ -23,6 +24,8 @@ class RequestFactory:
             return YandereRequest
         elif source_name == 'lolibooru':
             return LolibooruRequest
+        elif source_name == 'zerochan':
+            return ZerochanRequest
         else:
             return logging.error(f"Unsupported source: {source_name}!")
 
@@ -39,6 +42,8 @@ class RequestFactory:
         elif source_name == 'yandere' or source_name == 'yande.re':
             return 1
         elif source_name == 'lolibooru':
+            return 1
+        elif source_name == 'zerochan':
             return 1
         else:
             return 0
