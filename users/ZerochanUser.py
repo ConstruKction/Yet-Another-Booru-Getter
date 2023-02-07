@@ -12,7 +12,10 @@ class ZerochanUser(UserInterface):
         self.z_hash = self.initialize_user().get('z_hash')
 
     def initialize_user(self):
-        zerochan_config_location = f"{pathlib.Path().resolve()}/config/zerochan.json"
+        if __debug__:
+            zerochan_config_location = f"{pathlib.Path().resolve()}/config/zerochan_debug.json"
+        else:
+            zerochan_config_location = f"{pathlib.Path().resolve()}/config/zerochan.json"
 
         if not pathlib.Path(zerochan_config_location).exists():
             logging.critical(
