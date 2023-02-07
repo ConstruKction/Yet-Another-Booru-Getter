@@ -4,6 +4,7 @@ from images.KonachanImage import KonachanImage
 from images.LolibooruImage import LolibooruImage
 from images.SafebooruImage import SafebooruImage
 from images.YandereImage import YandereImage
+from images.ZerochanImage import ZerochanImage
 
 GELBOORU_NSFW_RATINGS = ['explicit', 'questionable', 'sensitive']
 DANBOORU_NSFW_RATINGS = ['e', 'q', 's']
@@ -28,6 +29,8 @@ class ImageFactory:
             return YandereImage
         elif source_name == 'lolibooru':
             return LolibooruImage
+        elif source_name == 'zerochan':
+            return ZerochanImage
         else:
             return
 
@@ -45,5 +48,7 @@ class ImageFactory:
             return 'sfw' if rating not in YANDERE_NSFW_RATINGS else 'nsfw'
         elif source_name == 'lolibooru':
             return 'sfw' if rating not in LOLIBOORU_NSFW_RATINGS else 'nsfw'
+        elif source_name == 'zerochan':
+            return 'sfw'
         else:
             return

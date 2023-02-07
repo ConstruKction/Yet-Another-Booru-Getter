@@ -2,6 +2,7 @@ import logging
 from http import HTTPStatus
 
 import requests
+from fake_useragent import UserAgent
 from tqdm import tqdm
 
 
@@ -16,7 +17,10 @@ class ImageDownloader:
             logging.error(f"No URL present for {self.filename} in the API self!")
             return
 
-        response = requests.get(self.url, stream=True)
+        user_agent = UserAgent()
+        headers = {'user-agent': user_agent.chrome}
+
+        response = requests.get(self.url, stream=True, headers=headers)
         expected_size = int(response.headers.get('content-length', 0))
         progress_bar = tqdm(total=expected_size, unit='B', unit_scale=True, desc=self.filename)
 
