@@ -164,7 +164,7 @@ if __name__ == "__main__":
 
         if not args.all:
             if source == 'zerochan':
-                logging.info(f"Sleeping for {source}")
+                logging.debug(f"Sleeping for {source}")
                 sleep(1)
 
             new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
