@@ -14,26 +14,22 @@ class DanbooruTagRequest:
 
     def get_json(self):
         default_count = 0
-        default_sleeptime = 1
-        return self.__get_json(default_count, default_sleeptime)
+        return self.__get_json(default_count)
 
-    def __get_json(self, count, sleeptime):
+    def __get_json(self, count):
         count += 1
-        sleeptime += 1
 
         response_json = json.loads(requests.get(self.danbooru_tag_api_url).text)
         if len(response_json) == 0:
             logging.error(f"No matches found for tag: {self.tag}.")
             return
 
-        if count > 5:
-            logging.error(f"Max query attempt reached. Skipping.")
-            return
-
         if 'success' in response_json:
-            logging.info(f"Query timeout for tag: {self.tag}. Trying again with sleeptime of {sleeptime}s..."
+            logging.info(f"Query timeout for tag: {self.tag}. Trying again..."
                          f"\nAttempt #{count}")
-            time.sleep(sleeptime)
-            return self.__get_json(count, sleeptime)
+
+            time.sleep(1)
+
+            return self.__get_json(count)
 
         return response_json[0]

@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 from time import sleep
 
@@ -17,12 +18,13 @@ class ZerochanImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
         self.tags = json_dict.get('tags')
-        self.hash = self.get_image_details().get('hash')
-        self.source = self.get_image_details().get('source')
+        self.image_details = self.get_image_details()
+        self.hash = self.image_details.get('hash')
+        self.source = self.image_details.get('source')
         self.rating = 'nsfw' if self.is_nsfw() else 'sfw'
-        self.url = self.get_image_details().get('full')
-        self.width = self.get_image_details().get('width')
-        self.height = self.get_image_details().get('height')
+        self.url = self.image_details.get('full')
+        self.width = self.image_details.get('width')
+        self.height = self.image_details.get('height')
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
@@ -30,7 +32,6 @@ class ZerochanImage(ImageInterface):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
-        sleep(1)
 
     def get_image_details(self):
         user_agent = UserAgent()
@@ -38,7 +39,14 @@ class ZerochanImage(ImageInterface):
 
         image_detail_page_request = requests.get((ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE % self.id_image),
                                                  headers=headers).text
+
+        if 'full' not in image_detail_page_request:
+            logging.error(f"Can't get image details -> skipping")
+            return
+
         image_detail_page = json.loads(image_detail_page_request)
+
+        sleep(1.01)
 
         return image_detail_page
 
