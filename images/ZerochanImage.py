@@ -33,7 +33,6 @@ class ZerochanImage(ImageInterface):
         sleep(1)
 
     def get_image_details(self):
-
         user_agent = UserAgent()
         headers = {'user-agent': user_agent.chrome}
 
