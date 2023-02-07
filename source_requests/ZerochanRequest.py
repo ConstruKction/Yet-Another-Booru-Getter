@@ -10,6 +10,7 @@ from users.ZerochanUser import ZerochanUser
 
 ZEROCHAN_API_URL_TEMPLATE = "https://www.zerochan.net/%s?l=%s&json&p=%s&s=id"
 ZEROCHAN_API_HTML_RE = re.compile("<.+>", flags=re.S)
+ZEROCHAN_API_NEXT_RE = re.compile("next:")
 
 
 class ZerochanRequest(RequestInterface):
@@ -55,7 +56,8 @@ class ZerochanRequest(RequestInterface):
 
     @staticmethod
     def clean_json(dirty_json):
-        clean_json = re.sub(ZEROCHAN_API_HTML_RE, '', dirty_json)
+        cleaner_json = re.sub(ZEROCHAN_API_HTML_RE, '', dirty_json)
+        clean_json = re.sub(ZEROCHAN_API_NEXT_RE, '"next":', cleaner_json)
         return clean_json
 
     @staticmethod

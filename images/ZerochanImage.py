@@ -46,7 +46,7 @@ class ZerochanImage(ImageInterface):
 
         image_detail_page = json.loads(image_detail_page_request)
 
-        sleep(1.01)
+        sleep(2)
 
         return image_detail_page
 
