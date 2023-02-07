@@ -13,7 +13,7 @@ class ZerochanUser(UserInterface):
 
     def initialize_user(self):
         if __debug__:
-            zerochan_config_location = f"{pathlib.Path().resolve()}/debug/zerochan_debug.json"
+            zerochan_config_location = f"{pathlib.Path().resolve()}/debug_files/zerochan_debug.json"
         else:
             zerochan_config_location = f"{pathlib.Path().resolve()}/config/zerochan.json"
 
