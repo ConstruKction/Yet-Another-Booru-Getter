@@ -1,5 +1,4 @@
 import json
-import random
 import re
 from time import sleep
 
@@ -31,9 +30,9 @@ class ZerochanImage(ImageInterface):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
+        sleep(1)
 
     def get_image_details(self):
-        sleep(random.uniform(0.83, 3.59))
 
         user_agent = UserAgent()
         headers = {'user-agent': user_agent.chrome}

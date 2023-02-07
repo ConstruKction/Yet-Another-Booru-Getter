@@ -12,7 +12,6 @@ KONACHAN_NSFW_RATINGS = ['e', 'q']
 LOLIBOORU_NSFW_RATINGS = ['e', 'q']
 SAFEBOORU_NSFW_RATINGS = ['questionable']
 YANDERE_NSFW_RATINGS = ['e', 'q']
-ZEROCHAN_NSFW_RATINGS = ['Not Safe for Work']
 
 
 class ImageFactory:

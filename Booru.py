@@ -4,6 +4,7 @@ import os
 import pathlib
 import sys
 from datetime import datetime
+from time import sleep
 
 from Exclusion import Exclusion
 from SplitArguments import SplitArguments
@@ -162,6 +163,10 @@ if __name__ == "__main__":
         logging.info(f"Current source: {source}.")
 
         if not args.all:
+            if source == 'zerochan':
+                logging.info(f"Sleeping for {source}")
+                sleep(1)
+
             new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
         else:
             while True:
