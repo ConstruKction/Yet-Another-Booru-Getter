@@ -10,6 +10,7 @@ Currently supported boorus:
 - Safebooru
 - Lolibooru
 - Yande.re
+- Zerochan
 
 I'll try to support as many boorus as possible in the future. Feel free to create an issue if you want support for a
 specific booru that's not supported yet.
@@ -23,6 +24,7 @@ specific booru that's not supported yet.
 - Works with more than two tags at a time for Danbooru without the need for an account. Note however that the operation
   is much slower when querying more than two tags at a time due to Danbooru API limitations (must complete query within
   3s or else timeout, so the downloader has to retry quite often).
+- Can use user account for Zerochan. You need to fill out your z_id and z_hash in zerochan.json. You can find them in your Zerochan cookies.
 
 ## Usage/Examples
 
