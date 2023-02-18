@@ -1,3 +1,4 @@
+from images.ATFImage import ATFImage
 from images.DanbooruImage import DanbooruImage
 from images.GelbooruImage import GelbooruImage
 from images.KonachanImage import KonachanImage
@@ -12,6 +13,7 @@ KONACHAN_NSFW_RATINGS = ['e', 'q']
 LOLIBOORU_NSFW_RATINGS = ['e', 'q']
 SAFEBOORU_NSFW_RATINGS = ['questionable']
 YANDERE_NSFW_RATINGS = ['e', 'q']
+ATF_NSFW_RATINGS = ['e', 'q']
 
 
 class ImageFactory:
@@ -31,6 +33,8 @@ class ImageFactory:
             return LolibooruImage
         elif source_name == 'zerochan':
             return ZerochanImage
+        elif source_name == 'atf':
+            return ATFImage
         else:
             return
 
@@ -50,5 +54,7 @@ class ImageFactory:
             return 'sfw' if rating not in LOLIBOORU_NSFW_RATINGS else 'nsfw'
         elif source_name == 'zerochan':
             return 'sfw'
+        elif source_name == 'atf':
+            return 'sfw' if rating not in ATF_NSFW_RATINGS else 'nsfw'
         else:
             return

@@ -1,5 +1,6 @@
 import logging
 
+from source_requests.ATFRequest import ATFRequest
 from source_requests.DanbooruRequest import DanbooruRequest
 from source_requests.GelbooruRequest import GelbooruRequest
 from source_requests.KonachanRequest import KonachanRequest
@@ -26,6 +27,8 @@ class RequestFactory:
             return LolibooruRequest
         elif source_name == 'zerochan':
             return ZerochanRequest
+        elif source_name == 'atf':
+            return ATFRequest
         else:
             return logging.error(f"Unsupported source: {source_name}!")
 
@@ -44,6 +47,8 @@ class RequestFactory:
         elif source_name == 'lolibooru':
             return 1
         elif source_name == 'zerochan':
+            return 1
+        elif source_name == 'atf':
             return 1
         else:
             return 0

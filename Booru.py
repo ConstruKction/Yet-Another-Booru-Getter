@@ -57,14 +57,14 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, target_directory_path, source, increment_number):
+def new_request(tags, exclude_tags, count, target_dir_path, src, increment_num):
     request_factory = RequestFactory()
-    request_object = request_factory.get_request(source)
+    request_object = request_factory.get_request(src)
 
-    page_number = request_factory.get_default_first_page(source)
+    page_number = request_factory.get_default_first_page(src)
 
     if args.all:
-        page_number += increment_number
+        page_number += increment_num
 
     if not request_object:
         return
@@ -73,21 +73,21 @@ def new_request(tags, exclude_tags, count, target_directory_path, source, increm
 
     request = request_object(tags, count, page_number)
 
-    local_images = get_local_files(target_directory_path)
+    local_images = get_local_files(target_dir_path)
 
     r = request.get_json()
     if r is None:
         return
     for json_object in r:
         image_factory = ImageFactory()
-        image_object = image_factory.get_image(source)
+        image_object = image_factory.get_image(src)
 
         if not image_object:
             return
 
         image = image_object(json_object)
 
-        image.rating = image_factory.get_safety_rating(source, image.rating)
+        image.rating = image_factory.get_safety_rating(src, image.rating)
 
         file_found = False
 
@@ -107,10 +107,10 @@ def new_request(tags, exclude_tags, count, target_directory_path, source, increm
             logging.info(f"Image {image.filename} is SFW -> skipping")
             continue
 
-        image.download(target_directory_path, tags)
+        image.download(target_dir_path, tags)
 
         if args.log:
-            image.log_metadata(target_directory_path)
+            image.log_metadata(target_dir_path)
 
     return request
 
