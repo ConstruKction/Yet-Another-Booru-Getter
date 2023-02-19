@@ -92,6 +92,10 @@ def new_request(tags, exclude_tags, count, target_dir_path, src, increment_num):
         file_found = False
 
         for local_image in local_images:
+            if not image.hash:
+                logging.error(f"{image.filename} MD5 hash not found.")
+                return
+
             if local_image.hash == image.hash:
                 print_filename_exists_message(image.filename, local_image.filename)
                 file_found = True
