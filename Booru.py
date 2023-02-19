@@ -154,7 +154,7 @@ if __name__ == "__main__":
         logging.info("Logging metadata enabled.")
 
     increment_number = 0
-    target_directory_name = sanitize(f"{DATE}_{args.tags}")
+    target_directory_name = sanitize(f"{args.tags}")
     target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
 
     if pathlib.Path(target_directory_name).exists():
