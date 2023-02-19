@@ -174,3 +174,5 @@ if __name__ == "__main__":
                                 increment_number) is None):
                     break
                 increment_number += 1
+
+        increment_number = 0
