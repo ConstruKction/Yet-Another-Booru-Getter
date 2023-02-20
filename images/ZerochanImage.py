@@ -7,11 +7,15 @@ import requests
 from fake_useragent import UserAgent
 
 from ImageDownloader import ImageDownloader
+from JSONCleaner import JSONCleaner
 from MetadataLogger import MetadataLogger
 from images.ImageInterface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE = "https://www.zerochan.net/%s?json"
+ZEROCHAN_IMAGE_DETAULS_API_REGULAR_EXPRESSIONS = {
+    re.compile(r'\\'): ''
+}
 
 
 class ZerochanImage(ImageInterface):
@@ -43,6 +47,10 @@ class ZerochanImage(ImageInterface):
         if 'full' not in image_detail_page_request:
             logging.error(f"Can't get image details -> skipping")
             return
+
+        json_cleaner = JSONCleaner(image_detail_page_request, ZEROCHAN_IMAGE_DETAULS_API_REGULAR_EXPRESSIONS)
+
+        image_detail_page_request = json_cleaner.clean_json()
 
         image_detail_page = json.loads(image_detail_page_request)
 

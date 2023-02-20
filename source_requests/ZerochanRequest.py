@@ -5,13 +5,16 @@ import re
 import requests
 from fake_useragent import UserAgent
 
+from JSONCleaner import JSONCleaner
 from source_requests.RequestInterface import RequestInterface
 from users.ZerochanUser import ZerochanUser
 
 ZEROCHAN_API_URL_TEMPLATE = "https://www.zerochan.net/%s?l=%s&json&p=%s&s=id"
-ZEROCHAN_API_HTML_RE = re.compile("<.+>", flags=re.S)
-ZEROCHAN_API_NEXT_RE = re.compile("next:")
-ZEROCHAN_API_BACKSLASH_RE = re.compile(r'\\')
+ZEROCHAN_API_REGULAR_EXPRESSIONS = {
+    re.compile("<.+>", flags=re.S): '',
+    re.compile("next:"): '"next":',
+    re.compile(r'\\'): ''
+}
 
 
 class ZerochanRequest(RequestInterface):
@@ -36,8 +39,9 @@ class ZerochanRequest(RequestInterface):
 
         response_json = requests.get(self.api_url, headers=headers, cookies=cookies).text
 
-        if 'div' in response_json:
-            response_json = ZerochanRequest.clean_json(response_json)
+        json_cleaner = JSONCleaner(response_json, ZEROCHAN_API_REGULAR_EXPRESSIONS)
+
+        response_json = json_cleaner.clean_json()
 
         response_json = json.loads(response_json)
 
@@ -54,13 +58,6 @@ class ZerochanRequest(RequestInterface):
             tags_string = f"{tags_string}{tag},"
 
         return tags_string
-
-    @staticmethod
-    def clean_json(dirty_json):
-        clean_json = re.sub(ZEROCHAN_API_HTML_RE, '', dirty_json)
-        clean_json = re.sub(ZEROCHAN_API_NEXT_RE, '"next":', clean_json)
-        clean_json = re.sub(ZEROCHAN_API_BACKSLASH_RE, '', clean_json)
-        return clean_json
 
     @staticmethod
     def get_session_id(api_url):

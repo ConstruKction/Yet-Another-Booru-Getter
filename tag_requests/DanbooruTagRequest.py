@@ -4,7 +4,8 @@ import time
 
 import requests
 
-DANBOORU_TAG_API_URL_TEMPLATE = "https://danbooru.donmai.us/tags.json?hide_empty=yes&search[order]=count&search[name_or_alias_matches]=%s"
+DANBOORU_TAG_API_URL_TEMPLATE = "https://danbooru.donmai.us/tags.json?hide_empty=yes&search[order]=count&search[" \
+                                "name_or_alias_matches]=%s"
 
 
 class DanbooruTagRequest:

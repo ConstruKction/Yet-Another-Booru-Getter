@@ -25,7 +25,7 @@ class DanbooruRequest(RequestInterface):
     def create_tags_string(tags):
         tags_string = ''
 
-        tags = sorted(tags, key=lambda tag: tag.get_danbooru_tag_post_count())
+        tags = sorted(tags, key=lambda t: t.get_danbooru_tag_post_count())
 
         if len(tags) > 2:
             for tag in tags[:2]:
