@@ -10,10 +10,16 @@ Currently supported boorus:
 - Safebooru
 - Lolibooru
 - Yande.re
-- Zerochan
+- Zerochan (not recommended to combine with others)
+- ATF
 
 I'll try to support as many boorus as possible in the future. Feel free to create an issue if you want support for a
 specific booru that's not supported yet.
+
+**DISCLAIMER:** Although it is possible to tell the program to download specified tags from all possible imageboards,
+it's
+not always going to yield ideal results due to some differences in how certain imageboards handle tags (e.g. $artist_(artist) vs $artist) etc. Also please note that some imageboards are slower than others. For example, Gelbooru is crazy
+fast, but Zerochan enforces a sleeptime, while ATF or Yande.re are just plain slow.
 
 ## Features
 
@@ -24,7 +30,9 @@ specific booru that's not supported yet.
 - Works with more than two tags at a time for Danbooru without the need for an account. Note however that the operation
   is much slower when querying more than two tags at a time due to Danbooru API limitations (must complete query within
   3s or else timeout, so the downloader has to retry quite often).
-- Can use user account for Zerochan. You need to fill out your z_id and z_hash in zerochan.json. You can find them in your Zerochan cookies.
+- Can use user account for Zerochan. You need to fill out your z_id and z_hash in zerochan.json. You can find them in
+  your Zerochan cookies.
+- NSFW / SFW-only modes.
 
 ## Usage/Examples
 
@@ -53,7 +61,7 @@ Booru.py -c 25 -t hatsune_miku,sitting -e nude,looking_at_viewer
 Just gimme ALL Mikus from everywhere (duplicates will be skipped):
 
 ```bash
-Booru.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,lolibooru,yandere
+Booru.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,lolibooru,yandere,zerochan,atf
 ```
 
 Log metadata per image in a txt file:
