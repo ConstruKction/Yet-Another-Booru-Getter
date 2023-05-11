@@ -11,7 +11,7 @@ DANBOORU_TAG_API_URL_TEMPLATE = "https://danbooru.donmai.us/tags.json?hide_empty
 class DanbooruTagRequest:
     def __init__(self, tag):
         self.tag = tag
-        self.danbooru_tag_api_url = DANBOORU_TAG_API_URL_TEMPLATE % (tag)
+        self.danbooru_tag_api_url = DANBOORU_TAG_API_URL_TEMPLATE % tag
 
     def get_json(self):
         default_count = 0
