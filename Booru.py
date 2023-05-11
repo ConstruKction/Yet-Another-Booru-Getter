@@ -166,17 +166,18 @@ if __name__ == "__main__":
     for source in args.sources:
         logging.info(f"Current source: {source}.")
 
-        if not args.all:
-            if source == 'zerochan':
-                logging.debug(f"Sleeping for {source}")
-                sleep(1)
+        if args.all:
+            while True:
+                if new_request(args.tags, args.exclude, args.count, target_directory_path, source,
+                               increment_number) is None:
+                    break
+                increment_number += 1
+        elif source == 'zerochan':
+            logging.debug(f"Sleeping for {source}")
+            sleep(1)
 
             new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
         else:
-            while True:
-                if (new_request(args.tags, args.exclude, args.count, target_directory_path, source,
-                                increment_number) is None):
-                    break
-                increment_number += 1
+            new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
 
         increment_number = 0
