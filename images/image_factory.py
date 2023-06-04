@@ -1,11 +1,11 @@
-from images.ATFImage import ATFImage
-from images.DanbooruImage import DanbooruImage
-from images.GelbooruImage import GelbooruImage
-from images.KonachanImage import KonachanImage
-from images.LolibooruImage import LolibooruImage
-from images.SafebooruImage import SafebooruImage
-from images.YandereImage import YandereImage
-from images.ZerochanImage import ZerochanImage
+from images.atf_image import ATFImage
+from images.danbooru_image import DanbooruImage
+from images.gelbooru_image import GelbooruImage
+from images.konachan_image import KonachanImage
+from images.lolibooru_image import LolibooruImage
+from images.safebooru_image import SafebooruImage
+from images.yandere_image import YandereImage
+from images.zerochan_image import ZerochanImage
 
 GELBOORU_NSFW_RATINGS = ['explicit', 'questionable', 'sensitive']
 DANBOORU_NSFW_RATINGS = ['e', 'q', 's']

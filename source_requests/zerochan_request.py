@@ -5,9 +5,9 @@ import re
 import requests
 from fake_useragent import UserAgent
 
-from JSONCleaner import JSONCleaner
-from source_requests.RequestInterface import RequestInterface
-from users.ZerochanUser import ZerochanUser
+from json_cleaner import JSONCleaner
+from source_requests.request_interface import RequestInterface
+from users.zerochan_user import ZerochanUser
 
 ZEROCHAN_API_URL_TEMPLATE = "https://www.zerochan.net/%s?l=%s&json&p=%s&s=id"
 ZEROCHAN_API_REGULAR_EXPRESSIONS = {

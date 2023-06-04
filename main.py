@@ -6,12 +6,12 @@ import sys
 from datetime import datetime
 from time import sleep
 
-from Exclusion import Exclusion
-from SplitArguments import SplitArguments
-from Tag import Tag
-from images.ImageFactory import ImageFactory
-from images.LocalImage import LocalImage
-from source_requests.RequestFactory import RequestFactory
+from exclusion import Exclusion
+from split_arguments import SplitArguments
+from tag import Tag
+from images.image_factory import ImageFactory
+from images.local_image import LocalImage
+from source_requests.request_factory import RequestFactory
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
 DATE = datetime.now().strftime('%Y_%m_%d')

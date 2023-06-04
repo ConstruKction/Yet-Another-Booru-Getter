@@ -37,37 +37,37 @@ fast, but Zerochan enforces a sleeptime, while ATF or Yande.re are just plain sl
 ## Usage/Examples
 
 ```bash
-Booru.py [-h | --help] [-t | --tags TAGS] [-e | --exclude EXCLUDE] [-c | --count COUNT] [-l | --log] [-a | --all] [-s | --sources SOURCES]
+main.py [-h | --help] [-t | --tags TAGS] [-e | --exclude EXCLUDE] [-c | --count COUNT] [-l | --log] [-a | --all] [-s | --sources SOURCES]
 ```
 
 Halp
 
 ```bash
-Booru.py -h
+main.py -h
 ```
 
 Get 25 latest items from Gelbooru (max 100):
 
 ```bash
-Booru.py -c 25 -s gelbooru
+main.py -c 25 -s gelbooru
 ```
 
 Refine search by including and excluding tags:
 
 ```bash
-Booru.py -c 25 -t hatsune_miku,sitting -e nude,looking_at_viewer
+main.py -c 25 -t hatsune_miku,sitting -e nude,looking_at_viewer
 ```
 
 Just gimme ALL Mikus from everywhere (duplicates will be skipped):
 
 ```bash
-Booru.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,lolibooru,yandere,zerochan,atf
+main.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,lolibooru,yandere,zerochan,atf
 ```
 
 Log metadata per image in a txt file:
 
 ```bash
-Booru.py -t hatsune_miku -l -s gelbooru
+main.py -t hatsune_miku -l -s gelbooru
 ```
 
 ## License

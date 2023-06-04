@@ -1,8 +1,8 @@
 import re
 
-from ImageDownloader import ImageDownloader
-from MetadataLogger import MetadataLogger
-from images.ImageInterface import ImageInterface
+from image_downloader import ImageDownloader
+from metadata_logger import MetadataLogger
+from images.image_interface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 SAFEBOORU_IMAGE_URL_TEMPLATE = "https://safebooru.org/images/%s"

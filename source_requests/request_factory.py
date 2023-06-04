@@ -1,13 +1,13 @@
 import logging
 
-from source_requests.ATFRequest import ATFRequest
-from source_requests.DanbooruRequest import DanbooruRequest
-from source_requests.GelbooruRequest import GelbooruRequest
-from source_requests.KonachanRequest import KonachanRequest
-from source_requests.LolibooruRequest import LolibooruRequest
-from source_requests.SafebooruRequest import SafebooruRequest
-from source_requests.YandereRequest import YandereRequest
-from source_requests.ZerochanRequest import ZerochanRequest
+from source_requests.atf_request import ATFRequest
+from source_requests.danbooru_request import DanbooruRequest
+from source_requests.gelbooru_request import GelbooruRequest
+from source_requests.konachan_request import KonachanRequest
+from source_requests.lolibooru_request import LolibooruRequest
+from source_requests.safebooru_request import SafebooruRequest
+from source_requests.yandere_request import YandereRequest
+from source_requests.zerochan_request import ZerochanRequest
 
 
 class RequestFactory:

@@ -1,5 +1,5 @@
-from Exclusion import Exclusion
-from tag_requests.DanbooruTagRequest import DanbooruTagRequest
+from exclusion import Exclusion
+from tag_requests.danbooru_tag_request import DanbooruTagRequest
 
 
 class Tag:
