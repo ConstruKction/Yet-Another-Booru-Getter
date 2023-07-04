@@ -6,10 +6,10 @@ from time import sleep
 import requests
 from fake_useragent import UserAgent
 
-from image_downloader import ImageDownloader
-from json_cleaner import JSONCleaner
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
+from src.image_downloader import ImageDownloader
+from src.json_cleaner import JSONCleaner
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE = "https://www.zerochan.net/%s?json"

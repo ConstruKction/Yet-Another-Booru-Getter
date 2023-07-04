@@ -1,22 +1,22 @@
 import re
 
-from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
+from src.image_downloader import ImageDownloader
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 
 
-class KonachanImage(ImageInterface):
+class LolibooruImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
-        self.url = json_dict.get('file_url')
+        self.url = json_dict.get('preview_url').replace('data/preview', 'image')
         self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tags')
         self.source = json_dict.get('source')
         self.rating = json_dict.get('rating')
-        self.width = json_dict.get('image_width')
-        self.height = json_dict.get('image_height')
+        self.width = json_dict.get('width')
+        self.height = json_dict.get('height')
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 

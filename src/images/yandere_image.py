@@ -1,25 +1,22 @@
 import re
 
-from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
+from src.image_downloader import ImageDownloader
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
-SAFEBOORU_IMAGE_URL_TEMPLATE = "https://safebooru.org/images/%s"
 
 
-class SafebooruImage(ImageInterface):
+class YandereImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
-        self.directory = json_dict.get('directory')
-        self.image = json_dict.get('image')
-        self.hash = json_dict.get('hash')
+        self.url = json_dict.get('file_url')
+        self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tags')
+        self.source = json_dict.get('source')
         self.rating = json_dict.get('rating')
         self.width = json_dict.get('width')
         self.height = json_dict.get('height')
-        self.image_location = f"{self.directory}/{self.image}"
-        self.url = SAFEBOORU_IMAGE_URL_TEMPLATE % (self.image_location)
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
@@ -33,6 +30,7 @@ class SafebooruImage(ImageInterface):
             f"url: {self.url}",
             f"md5: {self.hash}",
             f"tags: {self.tags.replace(' ', ',')}",
+            f"source: {self.source}",
             f"rating: {self.rating}",
             f"width: {self.width}",
             f"height: {self.height}",

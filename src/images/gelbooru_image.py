@@ -1,13 +1,13 @@
 import re
 
-from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
+from src.image_downloader import ImageDownloader
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 
 
-class YandereImage(ImageInterface):
+class GelbooruImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
         self.url = json_dict.get('file_url')

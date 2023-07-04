@@ -3,7 +3,7 @@ import logging
 
 import requests
 
-from source_requests.request_interface import RequestInterface
+from src.source_requests.request_interface import RequestInterface
 
 GELBOORU_API_URL_TEMPLATE = "https://gelbooru.com/index.php?page=dapi&s=post&q=index&json=1&tags=%s&limit=%s&pid=%s"
 
