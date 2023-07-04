@@ -1,15 +1,17 @@
-from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
+from src.exclusion import Exclusion
+from src.image_downloader import ImageDownloader
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 
-class ATFImage(ImageInterface):
+class DanbooruImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
         self.url = json_dict.get('file_url')
         self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tag_string')
         self.source = json_dict.get('source')
+        self.artists = json_dict.get('tag_string_artist')
         self.rating = json_dict.get('rating')
         self.width = json_dict.get('image_width')
         self.height = json_dict.get('image_height')
@@ -17,6 +19,13 @@ class ATFImage(ImageInterface):
         self.filename = f"{self.id_image}.{self.extension}"
 
     def download(self, path, tags):
+        for tag in tags:
+            if tag.value not in self.tags and tag.exclude == Exclusion.INCLUDED:
+                return
+
+            if tag.value in self.tags and tag.exclude == Exclusion.EXCLUDED:
+                return
+
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
@@ -27,6 +36,7 @@ class ATFImage(ImageInterface):
             f"md5: {self.hash}",
             f"tags: {self.tags.replace(' ', ',')}",
             f"source: {self.source}",
+            f"artists: {self.artists.replace(' ', ',')}",
             f"rating: {self.rating}",
             f"width: {self.width}",
             f"height: {self.height}",

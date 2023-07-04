@@ -78,3 +78,8 @@ main.py -t hatsune_miku -l -s gelbooru
 
 <img src="https://raw.githubusercontent.com/ConstruKction/booru_getter/master/screenshots/booru_getter.png"/>
 
+# Running tests
+
+```bash
+python -m pytest tests
+```

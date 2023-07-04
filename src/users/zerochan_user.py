@@ -3,7 +3,7 @@ import logging
 import pathlib
 import sys
 
-from users.user_interface import UserInterface
+from src.users.user_interface import UserInterface
 
 
 class ZerochanUser(UserInterface):

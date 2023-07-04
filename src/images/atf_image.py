@@ -1,23 +1,19 @@
-import re
-
-from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
-
-FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
+from src.image_downloader import ImageDownloader
+from src.metadata_logger import MetadataLogger
+from src.images.image_interface import ImageInterface
 
 
-class LolibooruImage(ImageInterface):
+class ATFImage(ImageInterface):
     def __init__(self, json_dict):
         self.id_image = json_dict.get('id')
-        self.url = json_dict.get('preview_url').replace('data/preview', 'image')
+        self.url = json_dict.get('file_url')
         self.hash = json_dict.get('md5')
-        self.tags = json_dict.get('tags')
+        self.tags = json_dict.get('tag_string')
         self.source = json_dict.get('source')
         self.rating = json_dict.get('rating')
-        self.width = json_dict.get('width')
-        self.height = json_dict.get('height')
-        self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
+        self.width = json_dict.get('image_width')
+        self.height = json_dict.get('image_height')
+        self.extension = json_dict.get('file_ext')
         self.filename = f"{self.id_image}.{self.extension}"
 
     def download(self, path, tags):
