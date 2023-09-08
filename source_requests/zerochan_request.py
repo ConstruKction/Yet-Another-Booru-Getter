@@ -28,9 +28,7 @@ class ZerochanRequest(RequestInterface):
         z_hash = zerochan_user.z_hash
 
         user_agent = UserAgent()
-        headers = {
-            'user-agent': user_agent.chrome
-        }
+        headers = {'user-agent': user_agent.chrome}
         cookies = {
             'z_id': z_id,
             'z_hash': z_hash,

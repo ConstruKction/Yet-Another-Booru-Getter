@@ -10,6 +10,7 @@ from image_downloader import ImageDownloader
 from json_cleaner import JSONCleaner
 from metadata_logger import MetadataLogger
 from images.image_interface import ImageInterface
+from users.zerochan_user import ZerochanUser
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE = "https://www.zerochan.net/%s?json"
@@ -38,11 +39,20 @@ class ZerochanImage(ImageInterface):
         image_downloader.download()
 
     def get_image_details(self):
+        zerochan_user = ZerochanUser()
+        z_id = zerochan_user.z_id
+        z_hash = zerochan_user.z_hash
+
         user_agent = UserAgent()
         headers = {'user-agent': user_agent.chrome}
+        cookies = {
+            'z_id': z_id,
+            'z_hash': z_hash,
+            'PHPSESSID': self.get_session_id(ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE % self.id_image)
+        }
 
         image_detail_page_request = requests.get((ZEROCHAN_IMAGE_DETAILS_API_URL_TEMPLATE % self.id_image),
-                                                 headers=headers).text
+                                                 headers=headers, cookies=cookies).text
 
         if 'full' not in image_detail_page_request:
             logging.error(f"Can't get image details -> skipping")
@@ -78,3 +88,13 @@ class ZerochanImage(ImageInterface):
     def is_nsfw(self):
         if 'Not Safe for Work' in self.tags:
             return True
+
+    @staticmethod
+    def get_session_id(api_url):
+        user_agent = UserAgent()
+
+        session = requests.Session()
+        session.headers = {'user-agent': user_agent.chrome}
+        session_id = session.get(api_url, headers={'user-agent': user_agent.chrome}).cookies.get('PHPSESSID')
+
+        return session_id
