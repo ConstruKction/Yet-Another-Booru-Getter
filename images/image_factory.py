@@ -2,7 +2,6 @@ from images.atf_image import ATFImage
 from images.danbooru_image import DanbooruImage
 from images.gelbooru_image import GelbooruImage
 from images.konachan_image import KonachanImage
-from images.lolibooru_image import LolibooruImage
 from images.safebooru_image import SafebooruImage
 from images.yandere_image import YandereImage
 from images.zerochan_image import ZerochanImage
@@ -10,7 +9,6 @@ from images.zerochan_image import ZerochanImage
 GELBOORU_NSFW_RATINGS = ['explicit', 'questionable', 'sensitive']
 DANBOORU_NSFW_RATINGS = ['e', 'q', 's']
 KONACHAN_NSFW_RATINGS = ['e', 'q']
-LOLIBOORU_NSFW_RATINGS = ['e', 'q']
 SAFEBOORU_NSFW_RATINGS = ['questionable']
 YANDERE_NSFW_RATINGS = ['e', 'q']
 ATF_NSFW_RATINGS = ['e', 'q']
@@ -29,8 +27,6 @@ class ImageFactory:
             return SafebooruImage
         elif source_name == 'yandere' or source_name == 'yande.re':
             return YandereImage
-        elif source_name == 'lolibooru':
-            return LolibooruImage
         elif source_name == 'zerochan':
             return ZerochanImage
         elif source_name == 'atf':
@@ -50,8 +46,6 @@ class ImageFactory:
             return 'sfw' if rating not in SAFEBOORU_NSFW_RATINGS else 'nsfw'
         elif source_name == 'yandere' or source_name == 'yande.re':
             return 'sfw' if rating not in YANDERE_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'lolibooru':
-            return 'sfw' if rating not in LOLIBOORU_NSFW_RATINGS else 'nsfw'
         elif source_name == 'zerochan':
             return 'sfw'
         elif source_name == 'atf':

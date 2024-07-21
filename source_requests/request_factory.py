@@ -4,7 +4,6 @@ from source_requests.atf_request import ATFRequest
 from source_requests.danbooru_request import DanbooruRequest
 from source_requests.gelbooru_request import GelbooruRequest
 from source_requests.konachan_request import KonachanRequest
-from source_requests.lolibooru_request import LolibooruRequest
 from source_requests.safebooru_request import SafebooruRequest
 from source_requests.yandere_request import YandereRequest
 from source_requests.zerochan_request import ZerochanRequest
@@ -23,8 +22,6 @@ class RequestFactory:
             return SafebooruRequest
         elif source_name == 'yandere' or source_name == 'yande.re':
             return YandereRequest
-        elif source_name == 'lolibooru':
-            return LolibooruRequest
         elif source_name == 'zerochan':
             return ZerochanRequest
         elif source_name == 'atf':
@@ -43,8 +40,6 @@ class RequestFactory:
         elif source_name == 'safebooru':
             return 0
         elif source_name == 'yandere' or source_name == 'yande.re':
-            return 1
-        elif source_name == 'lolibooru':
             return 1
         elif source_name == 'zerochan':
             return 1

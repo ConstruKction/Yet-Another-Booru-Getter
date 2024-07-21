@@ -8,7 +8,6 @@ Currently supported boorus:
 - Danbooru
 - Konachan
 - Safebooru
-- Lolibooru
 - Yande.re
 - Zerochan (not recommended to combine with others)
 - ATF
@@ -61,7 +60,7 @@ main.py -c 25 -t hatsune_miku,sitting -e nude,looking_at_viewer
 Just gimme ALL Mikus from everywhere (duplicates will be skipped):
 
 ```bash
-main.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,lolibooru,yandere,zerochan,atf
+main.py -t hatsune_miku -a -s gelbooru,danbooru,konachan,safebooru,yandere,zerochan,atf
 ```
 
 Log metadata per image in a txt file:
