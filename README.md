@@ -54,7 +54,7 @@ main.py -c 25 -s gelbooru
 Refine search by including and excluding tags:
 
 ```bash
-main.py -c 25 -t hatsune_miku,sitting -e nude,looking_at_viewer
+main.py -c 25 -t hatsune_miku,sitting -e looking_at_viewer
 ```
 
 Just gimme ALL Mikus from everywhere (duplicates will be skipped):
