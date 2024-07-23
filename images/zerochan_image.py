@@ -7,9 +7,9 @@ import requests
 from fake_useragent import UserAgent
 
 from image_downloader import ImageDownloader
+from images.image_interface import ImageInterface
 from json_cleaner import JSONCleaner
 from metadata_logger import MetadataLogger
-from images.image_interface import ImageInterface
 from users.zerochan_user import ZerochanUser
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")

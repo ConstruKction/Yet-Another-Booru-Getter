@@ -1,7 +1,7 @@
 from exclusion import Exclusion
 from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
 from images.image_interface import ImageInterface
+from metadata_logger import MetadataLogger
 
 
 class DanbooruImage(ImageInterface):

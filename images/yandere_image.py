@@ -1,8 +1,8 @@
 import re
 
 from image_downloader import ImageDownloader
-from metadata_logger import MetadataLogger
 from images.image_interface import ImageInterface
+from metadata_logger import MetadataLogger
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 
