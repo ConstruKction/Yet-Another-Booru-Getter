@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 class ImageDownloader:
-    def __init__(self, url, path, filename):
+    def __init__(self, url: str, path: str, filename: str):
         self.url = url
         self.download_path = path
         self.filename = filename
