@@ -1,10 +1,11 @@
 import argparse
 import logging
 import os
-import pathlib
 import sys
 from datetime import datetime
+from pathlib import Path
 from time import sleep
+from typing import List, Optional
 
 from exclusion import Exclusion
 from images.image_factory import ImageFactory
@@ -19,7 +20,7 @@ DATE = datetime.now().strftime('%Y_%m_%d')
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
-def get_local_files(directory_path):
+def get_local_files(directory_path: str) -> List[LocalImage]:
     filepath_list = []
     files = os.listdir(directory_path)
     for file in files:
@@ -27,14 +28,14 @@ def get_local_files(directory_path):
     return filepath_list
 
 
-def print_filename_exists_message(booru_image_filename, local_image_filename):
+def print_filename_exists_message(booru_image_filename: str, local_image_filename: str):
     if booru_image_filename != local_image_filename:
         logging.info(f"{booru_image_filename} exists as {local_image_filename}")
     else:
         logging.info(f"{booru_image_filename} exists")
 
 
-def create_tag_object_list(tags_string, exclude):
+def create_tag_object_list(tags_string: str, exclude: Exclusion) -> List[Tag]:
     tag_object_list = []
     if tags_string is None:
         return tag_object_list
@@ -46,7 +47,7 @@ def create_tag_object_list(tags_string, exclude):
     return tag_object_list
 
 
-def sanitize(string):
+def sanitize(string: str) -> str:
     if 'None' in string:
         return string.replace('_None', '')
 
@@ -57,7 +58,13 @@ def sanitize(string):
     return string.replace(',', '_')
 
 
-def new_request(tags, exclude_tags, count, target_dir_path, src, increment_num):
+def new_request(tags: str,
+                exclude_tags: str,
+                count: int,
+                target_dir_path: str,
+                src: str,
+                increment_num: int) -> Optional[RequestFactory]:
+
     request_factory = RequestFactory()
     request_object = request_factory.get_request(src)
 
@@ -155,9 +162,9 @@ if __name__ == "__main__":
 
     increment_number = 0
     target_directory_name = sanitize(f"{args.tags}")
-    target_directory_path = f"{pathlib.Path().resolve()}/{target_directory_name}"
+    target_directory_path = f"{Path().resolve()}/{target_directory_name}"
 
-    if pathlib.Path(target_directory_name).exists():
+    if Path(target_directory_name).exists():
         logging.info(f"{target_directory_name} directory exists. Storing there.")
     else:
         os.makedirs(target_directory_name)
