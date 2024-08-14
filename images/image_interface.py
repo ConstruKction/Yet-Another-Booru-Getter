@@ -1,8 +1,11 @@
+from tag import Tag
+
+
 class ImageInterface:
-    def download(self, path, tags):
+    def download(self, path: str, tags: list[Tag]):
         raise NotImplementedError
 
-    def log_metadata(self, path):
+    def log_metadata(self, path: str):
         raise NotImplementedError
 
     def get_metadata(self):

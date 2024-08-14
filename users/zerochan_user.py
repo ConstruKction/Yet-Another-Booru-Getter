@@ -11,7 +11,7 @@ class ZerochanUser(UserInterface):
         self.z_id = self.initialize_user().get('z_id')
         self.z_hash = self.initialize_user().get('z_hash')
 
-    def initialize_user(self):
+    def initialize_user(self) -> dict:
         if __debug__:
             zerochan_config_location = f"{pathlib.Path().resolve()}/debug_files/zerochan_debug.json"
         else:

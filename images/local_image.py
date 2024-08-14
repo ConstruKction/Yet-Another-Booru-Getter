@@ -2,12 +2,12 @@ import hashlib
 
 
 class LocalImage:
-    def __init__(self, filepath):
+    def __init__(self, filepath: str):
         self.filename = filepath.split('/')[2]
         self.hash = self.calculate_hash(filepath)
 
     @staticmethod
-    def calculate_hash(filepath):
+    def calculate_hash(filepath: str) -> str:
         hash_md5 = hashlib.md5()
 
         with open(filepath, 'rb') as f:

@@ -1,5 +1,5 @@
 class MetadataLogger:
-    def __init__(self, path, id_image, filename, metadata):
+    def __init__(self, path: str, id_image: str, filename: str, metadata: list):
         self.path = path
         self.id_image = id_image
         self.filename = filename

@@ -1,6 +1,7 @@
 import json
 import logging
 import time
+from typing import Optional
 
 import requests
 
@@ -9,15 +10,15 @@ DANBOORU_TAG_API_URL_TEMPLATE = "https://danbooru.donmai.us/tags.json?hide_empty
 
 
 class DanbooruTagRequest:
-    def __init__(self, tag):
+    def __init__(self, tag: str):
         self.tag = tag
         self.danbooru_tag_api_url = DANBOORU_TAG_API_URL_TEMPLATE % tag
 
-    def get_json(self):
+    def get_json(self) -> Optional[dict]:
         default_count = 0
         return self.__get_json(default_count)
 
-    def __get_json(self, count):
+    def __get_json(self, count: int) -> Optional[dict]:
         count += 1
 
         response_json = json.loads(requests.get(self.danbooru_tag_api_url).text)

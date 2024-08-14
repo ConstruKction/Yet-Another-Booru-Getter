@@ -3,12 +3,13 @@ import re
 from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from metadata_logger import MetadataLogger
+from tag import Tag
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 
 
 class YandereImage(ImageInterface):
-    def __init__(self, json_dict):
+    def __init__(self, json_dict: dict):
         self.id_image = json_dict.get('id')
         self.url = json_dict.get('file_url')
         self.hash = json_dict.get('md5')
@@ -20,12 +21,12 @@ class YandereImage(ImageInterface):
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path, tags):
+    def download(self, path: str, tags: list[Tag]):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
 
-    def get_metadata(self):
+    def get_metadata(self) -> list:
         metadata_items = [
             f"url: {self.url}",
             f"md5: {self.hash}",
@@ -38,6 +39,6 @@ class YandereImage(ImageInterface):
         ]
         return metadata_items
 
-    def log_metadata(self, path):
+    def log_metadata(self, path: str):
         metadata_logger = MetadataLogger(path, self.id_image, self.filename, self.get_metadata())
         metadata_logger.log_metadata()

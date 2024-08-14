@@ -5,12 +5,13 @@ import sys
 from datetime import datetime
 from pathlib import Path
 from time import sleep
-from typing import List, Optional
+from typing import Optional
 
 from exclusion import Exclusion
 from images.image_factory import ImageFactory
 from images.local_image import LocalImage
 from source_requests.request_factory import RequestFactory
+from source_requests.request_interface import RequestInterface
 from split_arguments import SplitArguments
 from tag import Tag
 
@@ -20,7 +21,7 @@ DATE = datetime.now().strftime('%Y_%m_%d')
 logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
-def get_local_files(directory_path: str) -> List[LocalImage]:
+def get_local_files(directory_path: str) -> list[LocalImage]:
     filepath_list = []
     files = os.listdir(directory_path)
     for file in files:
@@ -35,7 +36,7 @@ def print_filename_exists_message(booru_image_filename: str, local_image_filenam
         logging.info(f"{booru_image_filename} exists")
 
 
-def create_tag_object_list(tags_string: str, exclude: Exclusion) -> List[Tag]:
+def create_tag_object_list(tags_string: str, exclude: Exclusion) -> list[Tag]:
     tag_object_list = []
     if tags_string is None:
         return tag_object_list
@@ -63,7 +64,7 @@ def new_request(tags: str,
                 count: int,
                 target_dir_path: str,
                 src: str,
-                increment_num: int) -> Optional[RequestFactory]:
+                increment_num: int) -> Optional[RequestInterface]:
 
     request_factory = RequestFactory()
     request_object = request_factory.get_request(src)
@@ -128,8 +129,8 @@ def new_request(tags: str,
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--tags', help='tags split by a comma (e.g. cute,vanilla)')
-    parser.add_argument('-e', '--exclude', help='tags to exclude split by a comma')
+    parser.add_argument('-t', '--tags', help='comma-separated tags (e.g. cute,vanilla)')
+    parser.add_argument('-e', '--exclude', help='comma-separated tags to exclude')
     parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
     parser.add_argument('-l', '--log', help='log filenames with their respective tags in a txt file', default=False,
                         action=argparse.BooleanOptionalAction)
@@ -145,6 +146,10 @@ if __name__ == "__main__":
 
     if len(sys.argv) == 1:
         parser.print_help(sys.stderr)
+        sys.exit()
+
+    if not args.sources:
+        logging.error("Need at least one source (e.g. -s gelbooru)")
         sys.exit()
 
     if args.safe_for_work and args.not_safe_for_work:

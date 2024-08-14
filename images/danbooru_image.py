@@ -2,10 +2,11 @@ from exclusion import Exclusion
 from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from metadata_logger import MetadataLogger
+from tag import Tag
 
 
 class DanbooruImage(ImageInterface):
-    def __init__(self, json_dict):
+    def __init__(self, json_dict: dict):
         self.id_image = json_dict.get('id')
         self.url = json_dict.get('file_url')
         self.hash = json_dict.get('md5')
@@ -18,7 +19,7 @@ class DanbooruImage(ImageInterface):
         self.extension = json_dict.get('file_ext')
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path, tags):
+    def download(self, path: str, tags: list[Tag]):
         for tag in tags:
             if tag.value not in self.tags and tag.exclude == Exclusion.INCLUDED:
                 return
@@ -30,7 +31,7 @@ class DanbooruImage(ImageInterface):
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
 
-    def get_metadata(self):
+    def get_metadata(self) -> list:
         metadata_items = [
             f"url: {self.url}",
             f"md5: {self.hash}",

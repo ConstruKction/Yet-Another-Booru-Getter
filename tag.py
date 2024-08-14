@@ -3,7 +3,7 @@ from tag_requests.danbooru_tag_request import DanbooruTagRequest
 
 
 class Tag:
-    def __init__(self, value, exclude):
+    def __init__(self, value: str, exclude: Exclusion):
         self.value = value
         self.exclude = exclude
 

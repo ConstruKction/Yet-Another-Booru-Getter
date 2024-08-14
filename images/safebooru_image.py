@@ -5,11 +5,11 @@ from images.image_interface import ImageInterface
 from metadata_logger import MetadataLogger
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
-SAFEBOORU_IMAGE_URL_TEMPLATE = "https://safebooru.org/images/%s"
+SAFEBOORU_IMAGE_URL_TEMPLATE = "https://safebooru.org/images"
 
 
 class SafebooruImage(ImageInterface):
-    def __init__(self, json_dict):
+    def __init__(self, json_dict: dict):
         self.id_image = json_dict.get('id')
         self.directory = json_dict.get('directory')
         self.image = json_dict.get('image')
@@ -19,16 +19,16 @@ class SafebooruImage(ImageInterface):
         self.width = json_dict.get('width')
         self.height = json_dict.get('height')
         self.image_location = f"{self.directory}/{self.image}"
-        self.url = SAFEBOORU_IMAGE_URL_TEMPLATE % (self.image_location)
+        self.url = f"{SAFEBOORU_IMAGE_URL_TEMPLATE}/{self.image_location}"
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path, tags):
+    def download(self, path: str, tags: str):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
 
-    def get_metadata(self):
+    def get_metadata(self) -> list:
         metadata_items = [
             f"url: {self.url}",
             f"md5: {self.hash}",
@@ -40,6 +40,6 @@ class SafebooruImage(ImageInterface):
         ]
         return metadata_items
 
-    def log_metadata(self, path):
+    def log_metadata(self, path: str):
         metadata_logger = MetadataLogger(path, self.id_image, self.filename, self.get_metadata())
         metadata_logger.log_metadata()

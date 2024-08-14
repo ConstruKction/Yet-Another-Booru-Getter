@@ -1,6 +1,10 @@
+import logging
+from typing import Union, Type
+
 from images.atf_image import ATFImage
 from images.danbooru_image import DanbooruImage
 from images.gelbooru_image import GelbooruImage
+from images.image_interface import ImageInterface
 from images.konachan_image import KonachanImage
 from images.safebooru_image import SafebooruImage
 from images.yandere_image import YandereImage
@@ -16,7 +20,7 @@ ATF_NSFW_RATINGS = ['e', 'q']
 
 class ImageFactory:
     @staticmethod
-    def get_image(source_name):
+    def get_image(source_name: str) -> Union[Type[ImageInterface], None]:
         if source_name == 'gelbooru':
             return GelbooruImage
         elif source_name == 'danbooru':
@@ -32,10 +36,10 @@ class ImageFactory:
         elif source_name == 'atf':
             return ATFImage
         else:
-            return
+            return logging.error(f"Couldn't link Image Object to source: '{source_name}'.")
 
     @staticmethod
-    def get_safety_rating(source_name, rating):
+    def get_safety_rating(source_name: str, rating: str) -> str:
         if source_name == 'gelbooru':
             return 'sfw' if rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
         elif source_name == 'danbooru':
@@ -51,4 +55,4 @@ class ImageFactory:
         elif source_name == 'atf':
             return 'sfw' if rating not in ATF_NSFW_RATINGS else 'nsfw'
         else:
-            return
+            return ''

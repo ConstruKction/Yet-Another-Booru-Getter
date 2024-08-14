@@ -10,6 +10,7 @@ from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from json_cleaner import JSONCleaner
 from metadata_logger import MetadataLogger
+from tag import Tag
 from users.zerochan_user import ZerochanUser
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
@@ -20,7 +21,7 @@ ZEROCHAN_IMAGE_DETAULS_API_REGULAR_EXPRESSIONS = {
 
 
 class ZerochanImage(ImageInterface):
-    def __init__(self, json_dict):
+    def __init__(self, json_dict: dict):
         self.id_image = json_dict.get('id')
         self.tags = json_dict.get('tags')
         self.image_details = self.get_image_details()
@@ -33,12 +34,12 @@ class ZerochanImage(ImageInterface):
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
         self.filename = f"{self.id_image}.{self.extension}"
 
-    def download(self, path, tags):
+    def download(self, path: str, tags: list[Tag]):
         filepath = f"{path}/{self.filename}"
         image_downloader = ImageDownloader(self.url, filepath, self.filename)
         image_downloader.download()
 
-    def get_image_details(self):
+    def get_image_details(self) -> dict:
         zerochan_user = ZerochanUser()
         z_id = zerochan_user.z_id
         z_hash = zerochan_user.z_hash
@@ -56,7 +57,7 @@ class ZerochanImage(ImageInterface):
 
         if 'full' not in image_detail_page_request:
             logging.error(f"Can't get image details -> skipping")
-            return
+            return {}
 
         json_cleaner = JSONCleaner(image_detail_page_request, ZEROCHAN_IMAGE_DETAULS_API_REGULAR_EXPRESSIONS)
 
@@ -68,7 +69,7 @@ class ZerochanImage(ImageInterface):
 
         return image_detail_page
 
-    def get_metadata(self):
+    def get_metadata(self) -> list:
         metadata_items = [
             f"url: {self.url}",
             f"md5: {self.hash}",
@@ -81,16 +82,16 @@ class ZerochanImage(ImageInterface):
         ]
         return metadata_items
 
-    def log_metadata(self, path):
+    def log_metadata(self, path: str):
         metadata_logger = MetadataLogger(path, self.id_image, self.filename, self.get_metadata())
         metadata_logger.log_metadata()
 
-    def is_nsfw(self):
+    def is_nsfw(self) -> bool:
         if 'Not Safe for Work' in self.tags:
             return True
 
     @staticmethod
-    def get_session_id(api_url):
+    def get_session_id(api_url: str) -> str:
         user_agent = UserAgent()
 
         session = requests.Session()

@@ -1,12 +1,14 @@
 import json
 import logging
 import re
+from typing import Optional
 
 import requests
 from fake_useragent import UserAgent
 
 from json_cleaner import JSONCleaner
 from source_requests.request_interface import RequestInterface
+from tag import Tag
 from users.zerochan_user import ZerochanUser
 
 ZEROCHAN_API_URL_TEMPLATE = "https://www.zerochan.net/%s?l=%s&json&p=%s&s=id"
@@ -18,11 +20,11 @@ ZEROCHAN_API_REGULAR_EXPRESSIONS = {
 
 
 class ZerochanRequest(RequestInterface):
-    def __init__(self, tags, count, page_number):
+    def __init__(self, tags: list[Tag], count: int, page_number: int):
         self.page_number = page_number
         self.api_url = ZEROCHAN_API_URL_TEMPLATE % (self.create_tags_string(tags), count, self.page_number)
 
-    def get_json(self):
+    def get_json(self) -> Optional[dict]:
         zerochan_user = ZerochanUser()
         z_id = zerochan_user.z_id
         z_hash = zerochan_user.z_hash
@@ -49,8 +51,7 @@ class ZerochanRequest(RequestInterface):
 
         return response_json['items']
 
-    @staticmethod
-    def create_tags_string(tags):
+    def create_tags_string(self, tags: list[Tag]) -> str:
         tags_string = ''
         for tag in tags:
             tags_string = f"{tags_string}{tag},"
@@ -58,7 +59,7 @@ class ZerochanRequest(RequestInterface):
         return tags_string
 
     @staticmethod
-    def get_session_id(api_url):
+    def get_session_id(api_url: str) -> str:
         user_agent = UserAgent()
 
         session = requests.Session()

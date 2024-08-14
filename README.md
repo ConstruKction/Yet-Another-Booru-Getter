@@ -9,8 +9,8 @@ Currently supported boorus:
 - Konachan
 - Safebooru
 - Yande.re
-- Zerochan (not recommended to combine with others)
 - ATF
+- Zerochan (not recommended to combine with other boorus due to big tagging differences)
 
 I'll try to support as many boorus as possible in the future. Feel free to create an issue if you want support for a
 specific booru that's not supported yet.
@@ -23,15 +23,15 @@ fast, but Zerochan enforces a sleeptime, while ATF or Yande.re are just plain sl
 ## Features
 
 - Supports multiple boorus
-- Skip already downloaded images based on image md5
+- Skip already downloaded images based on image md5 hash
 - Multiple tag search (both include and exclude)
-- Optional metadata logging per image into a txt file (off by default)
-- Works with more than two tags at a time for Danbooru without the need for an account. Note however that the operation
+- Optional metadata logging per image into a txt file
+- Works with multiple tags at a time for Danbooru without account! Note however that the operation
   is much slower when querying more than two tags at a time due to Danbooru API limitations (must complete query within
   3s or else timeout, so the downloader has to retry quite often).
-- Can use user account for Zerochan. You need to fill out your z_id and z_hash in zerochan.json. You can find them in
+- Can use a Zerochan account. You need to fill out your z_id and z_hash in zerochan.json. You can find them in
   your Zerochan cookies.
-- NSFW / SFW-only modes.
+- NSFW-only / SFW-only modes.
 
 ## Usage/Examples
 

@@ -1,9 +1,11 @@
 import logging
+from typing import Type, Union
 
 from source_requests.atf_request import ATFRequest
 from source_requests.danbooru_request import DanbooruRequest
 from source_requests.gelbooru_request import GelbooruRequest
 from source_requests.konachan_request import KonachanRequest
+from source_requests.request_interface import RequestInterface
 from source_requests.safebooru_request import SafebooruRequest
 from source_requests.yandere_request import YandereRequest
 from source_requests.zerochan_request import ZerochanRequest
@@ -11,7 +13,7 @@ from source_requests.zerochan_request import ZerochanRequest
 
 class RequestFactory:
     @staticmethod
-    def get_request(source_name):
+    def get_request(source_name: str) -> Union[Type[RequestInterface], None]:
         if source_name == 'gelbooru':
             return GelbooruRequest
         elif source_name == 'danbooru':
@@ -30,7 +32,7 @@ class RequestFactory:
             return logging.error(f"Unsupported source: {source_name}!")
 
     @staticmethod
-    def get_default_first_page(source_name):
+    def get_default_first_page(source_name: str) -> int:
         if source_name == 'gelbooru':
             return 0
         elif source_name == 'danbooru':
