@@ -4,16 +4,16 @@ from typing import Optional
 
 import requests
 
-from source_requests.request_interface import RequestInterface
-from tag import Tag
+from booru_requests.request_interface import RequestInterface
+from tag_requests.tag import Tag
 
-ATF_API_URL_TEMPLATE = "https://booru.allthefallen.moe/posts.json?tags=%s&limit=%s&page=%s"
+YANDERE_API_URL_TEMPLATE = "https://yande.re/post.json?tags=%s&limit=%s&page=%s"
 
 
-class ATFRequest(RequestInterface):
+class YandereRequest(RequestInterface):
     def __init__(self, tags: list[Tag], count: int, page_number: int):
         self.page_number = page_number
-        self.api_url = ATF_API_URL_TEMPLATE % (self.create_tags_string(tags), count, self.page_number)
+        self.api_url = YANDERE_API_URL_TEMPLATE % (self.create_tags_string(tags), count, self.page_number)
 
     def get_json(self) -> Optional[dict]:
         response_json = json.loads(requests.get(self.api_url).text)

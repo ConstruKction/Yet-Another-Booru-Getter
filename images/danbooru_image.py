@@ -2,7 +2,7 @@ from exclusion import Exclusion
 from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from metadata_logger import MetadataLogger
-from tag import Tag
+from tag_requests.tag import Tag
 
 
 class DanbooruImage(ImageInterface):
@@ -13,7 +13,7 @@ class DanbooruImage(ImageInterface):
         self.tags = json_dict.get('tag_string')
         self.source = json_dict.get('source')
         self.artists = json_dict.get('tag_string_artist')
-        self.rating = json_dict.get('rating')
+        self.safety_rating = json_dict.get('rating')
         self.width = json_dict.get('image_width')
         self.height = json_dict.get('image_height')
         self.extension = json_dict.get('file_ext')
@@ -38,7 +38,7 @@ class DanbooruImage(ImageInterface):
             f"tags: {self.tags.replace(' ', ',')}",
             f"source: {self.source}",
             f"artists: {self.artists.replace(' ', ',')}",
-            f"rating: {self.rating}",
+            f"rating: {self.safety_rating}",
             f"width: {self.width}",
             f"height: {self.height}",
             f"extension: {self.extension}"

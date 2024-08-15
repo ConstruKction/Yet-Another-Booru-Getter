@@ -3,7 +3,7 @@ import re
 from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from metadata_logger import MetadataLogger
-from tag import Tag
+from tag_requests.tag import Tag
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
 
@@ -15,7 +15,7 @@ class KonachanImage(ImageInterface):
         self.hash = json_dict.get('md5')
         self.tags = json_dict.get('tags')
         self.source = json_dict.get('source')
-        self.rating = json_dict.get('rating')
+        self.safety_rating = json_dict.get('rating')
         self.width = json_dict.get('image_width')
         self.height = json_dict.get('image_height')
         self.extension = re.search(FILE_EXTENSION_RE, self.url).group(1)
@@ -32,7 +32,7 @@ class KonachanImage(ImageInterface):
             f"md5: {self.hash}",
             f"tags: {self.tags.replace(' ', ',')}",
             f"source: {self.source}",
-            f"rating: {self.rating}",
+            f"rating: {self.safety_rating}",
             f"width: {self.width}",
             f"height: {self.height}",
             f"extension: {self.extension}"

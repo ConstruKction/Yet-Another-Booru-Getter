@@ -1,4 +1,4 @@
-from tag import Tag
+from tag_requests.tag import Tag
 
 
 class RequestInterface:

@@ -10,7 +10,7 @@ from image_downloader import ImageDownloader
 from images.image_interface import ImageInterface
 from json_cleaner import JSONCleaner
 from metadata_logger import MetadataLogger
-from tag import Tag
+from tag_requests.tag import Tag
 from users.zerochan_user import ZerochanUser
 
 FILE_EXTENSION_RE = re.compile(".*\\.(\\w+)")
@@ -27,7 +27,7 @@ class ZerochanImage(ImageInterface):
         self.image_details = self.get_image_details()
         self.hash = self.image_details.get('hash')
         self.source = self.image_details.get('source')
-        self.rating = 'nsfw' if self.is_nsfw() else 'sfw'
+        self.safety_rating = 'nsfw' if self.is_nsfw() else 'sfw'
         self.url = self.image_details.get('full')
         self.width = self.image_details.get('width')
         self.height = self.image_details.get('height')
@@ -75,7 +75,7 @@ class ZerochanImage(ImageInterface):
             f"md5: {self.hash}",
             f"tags: {self.tags}",
             f"source: {self.source}",
-            f"rating: {self.rating}",
+            f"rating: {self.safety_rating}",
             f"width: {self.width}",
             f"height: {self.height}",
             f"extension: {self.extension}"

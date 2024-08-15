@@ -15,7 +15,7 @@ class SafebooruImage(ImageInterface):
         self.image = json_dict.get('image')
         self.hash = json_dict.get('hash')
         self.tags = json_dict.get('tags')
-        self.rating = json_dict.get('rating')
+        self.safety_rating = json_dict.get('rating')
         self.width = json_dict.get('width')
         self.height = json_dict.get('height')
         self.image_location = f"{self.directory}/{self.image}"
@@ -33,7 +33,7 @@ class SafebooruImage(ImageInterface):
             f"url: {self.url}",
             f"md5: {self.hash}",
             f"tags: {self.tags.replace(' ', ',')}",
-            f"rating: {self.rating}",
+            f"rating: {self.safety_rating}",
             f"width: {self.width}",
             f"height: {self.height}",
             f"extension: {self.extension}"

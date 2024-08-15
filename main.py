@@ -10,10 +10,10 @@ from typing import Optional
 from exclusion import Exclusion
 from images.image_factory import ImageFactory
 from images.local_image import LocalImage
-from source_requests.request_factory import RequestFactory
-from source_requests.request_interface import RequestInterface
+from booru_requests.request_factory import RequestFactory
+from booru_requests.request_interface import RequestInterface
 from split_arguments import SplitArguments
-from tag import Tag
+from tag_requests.tag import Tag
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
 DATE = datetime.now().strftime('%Y_%m_%d')
@@ -63,13 +63,13 @@ def new_request(tags: str,
                 exclude_tags: str,
                 count: int,
                 target_dir_path: str,
-                src: str,
+                booru_name: str,
                 increment_num: int) -> Optional[RequestInterface]:
 
     request_factory = RequestFactory()
-    request_object = request_factory.get_request(src)
+    request_object = request_factory.get_request(booru_name)
 
-    page_number = request_factory.get_default_first_page(src)
+    page_number = request_factory.get_default_first_page(booru_name)
 
     if args.all:
         page_number += increment_num
@@ -88,14 +88,14 @@ def new_request(tags: str,
         return
     for json_object in r:
         image_factory = ImageFactory()
-        image_object = image_factory.get_image(src)
+        image_object = image_factory.get_image(booru_name)
 
         if not image_object:
             return
 
         image = image_object(json_object)
 
-        image.rating = image_factory.get_safety_rating(src, image.rating)
+        image.safety_rating = image_factory.get_safety_rating(booru_name, image.safety_rating)
 
         file_found = False
 
@@ -111,11 +111,11 @@ def new_request(tags: str,
         if file_found:
             continue
 
-        if args.safe_for_work and image.rating == 'nsfw':
+        if args.safe_for_work and image.safety_rating == 'nsfw':
             logging.info(f"Image {image.filename} is NSFW -> skipping")
             continue
 
-        if args.not_safe_for_work and image.rating == 'sfw':
+        if args.not_safe_for_work and image.safety_rating == 'sfw':
             logging.info(f"Image {image.filename} is SFW -> skipping")
             continue
 
@@ -153,7 +153,7 @@ if __name__ == "__main__":
         sys.exit()
 
     if args.safe_for_work and args.not_safe_for_work:
-        logging.error("Both SFW and NSFW arguments found. Please pick only one or neither.")
+        logging.error("Both SFW and NSFW arguments used! Please pick only one or neither.")
         sys.exit()
 
     if args.safe_for_work:

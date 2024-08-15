@@ -4,8 +4,8 @@ from typing import Optional
 
 import requests
 
-from source_requests.request_interface import RequestInterface
-from tag import Tag
+from booru_requests.request_interface import RequestInterface
+from tag_requests.tag import Tag
 
 DANBOORU_API_URL_TEMPLATE = "https://danbooru.donmai.us/posts.json?tags=%s&limit=%s&page=%s"
 

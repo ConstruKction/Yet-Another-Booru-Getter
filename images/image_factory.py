@@ -20,39 +20,39 @@ ATF_NSFW_RATINGS = ['e', 'q']
 
 class ImageFactory:
     @staticmethod
-    def get_image(source_name: str) -> Union[Type[ImageInterface], None]:
-        if source_name == 'gelbooru':
+    def get_image(booru_name: str) -> Union[Type[ImageInterface], None]:
+        if booru_name == 'gelbooru':
             return GelbooruImage
-        elif source_name == 'danbooru':
+        elif booru_name == 'danbooru':
             return DanbooruImage
-        elif source_name == 'konachan':
+        elif booru_name == 'konachan':
             return KonachanImage
-        elif source_name == 'safebooru':
+        elif booru_name == 'safebooru':
             return SafebooruImage
-        elif source_name == 'yandere' or source_name == 'yande.re':
+        elif booru_name == 'yandere' or booru_name == 'yande.re':
             return YandereImage
-        elif source_name == 'zerochan':
+        elif booru_name == 'zerochan':
             return ZerochanImage
-        elif source_name == 'atf':
+        elif booru_name == 'atf':
             return ATFImage
         else:
-            return logging.error(f"Couldn't link Image Object to source: '{source_name}'.")
+            return logging.error(f"Couldn't link Image Object to source: '{booru_name}'.")
 
     @staticmethod
-    def get_safety_rating(source_name: str, rating: str) -> str:
-        if source_name == 'gelbooru':
-            return 'sfw' if rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'danbooru':
-            return 'sfw' if rating not in DANBOORU_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'konachan':
-            return 'sfw' if rating not in KONACHAN_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'safebooru':
-            return 'sfw' if rating not in SAFEBOORU_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'yandere' or source_name == 'yande.re':
-            return 'sfw' if rating not in YANDERE_NSFW_RATINGS else 'nsfw'
-        elif source_name == 'zerochan':
+    def get_safety_rating(booru_name: str, safety_rating: str) -> str:
+        if booru_name == 'gelbooru':
+            return 'sfw' if safety_rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'danbooru':
+            return 'sfw' if safety_rating not in DANBOORU_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'konachan':
+            return 'sfw' if safety_rating not in KONACHAN_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'safebooru':
+            return 'sfw' if safety_rating not in SAFEBOORU_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'yandere' or booru_name == 'yande.re':
+            return 'sfw' if safety_rating not in YANDERE_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'zerochan':
             return 'sfw'
-        elif source_name == 'atf':
-            return 'sfw' if rating not in ATF_NSFW_RATINGS else 'nsfw'
+        elif booru_name == 'atf':
+            return 'sfw' if safety_rating not in ATF_NSFW_RATINGS else 'nsfw'
         else:
             return ''
