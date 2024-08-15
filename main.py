@@ -1,4 +1,3 @@
-import argparse
 import logging
 import os
 import sys
@@ -7,12 +6,12 @@ from pathlib import Path
 from time import sleep
 from typing import Optional
 
+from arg_parser import ArgParser
+from booru_requests.request_factory import RequestFactory
+from booru_requests.request_interface import RequestInterface
 from exclusion import Exclusion
 from images.image_factory import ImageFactory
 from images.local_image import LocalImage
-from booru_requests.request_factory import RequestFactory
-from booru_requests.request_interface import RequestInterface
-from split_arguments import SplitArguments
 from tag_requests.tag import Tag
 
 ILLEGAL_CHARACTERS = '<>:"/\\|?*.'
@@ -128,24 +127,11 @@ def new_request(tags: str,
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-t', '--tags', help='comma-separated tags (e.g. cute,vanilla)')
-    parser.add_argument('-e', '--exclude', help='comma-separated tags to exclude')
-    parser.add_argument('-c', '--count', help='amount of images desired, max 100', default=10, type=int)
-    parser.add_argument('-l', '--log', help='log filenames with their respective tags in a txt file', default=False,
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('-s', '--sources', help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
-                        action=SplitArguments)
-    parser.add_argument('-sfw', '--safe-for-work', help='download only sfw images', default=False,
-                        action=argparse.BooleanOptionalAction)
-    parser.add_argument('-nsfw', '--not-safe-for-work', help='download only nsfw images', default=False,
-                        action=argparse.BooleanOptionalAction)
-    args = parser.parse_args()
+    arg_parser = ArgParser()
+    args = arg_parser.parse_args()
 
     if len(sys.argv) == 1:
-        parser.print_help(sys.stderr)
+        args.print_help(sys.stderr)
         sys.exit()
 
     if not args.sources:
