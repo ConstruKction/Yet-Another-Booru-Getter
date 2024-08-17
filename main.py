@@ -3,7 +3,6 @@ import os
 import sys
 from datetime import datetime
 from pathlib import Path
-from time import sleep
 from typing import Optional
 
 from arg_parser import ArgParser
@@ -64,7 +63,6 @@ def new_request(tags: str,
                 target_dir_path: str,
                 booru_name: str,
                 increment_num: int) -> Optional[RequestInterface]:
-
     request_factory = RequestFactory()
     request_object = request_factory.get_request(booru_name)
 
@@ -126,6 +124,20 @@ def new_request(tags: str,
     return request
 
 
+def process_boorus(boorus, tags, exclude, count, directory_path, all_requests):
+    for booru in boorus:
+        logging.info(f"Processing source: {booru}.")
+        increment = 0
+
+        if all_requests:
+            while new_request(tags, exclude, count, directory_path, booru, increment) is not None:
+                increment += 1
+        else:
+            new_request(tags, exclude, count, directory_path, booru, increment)
+
+        logging.info(f"Finished processing source: {booru}.")
+
+
 if __name__ == "__main__":
     arg_parser = ArgParser()
     args = arg_parser.parse_args()
@@ -134,8 +146,8 @@ if __name__ == "__main__":
         args.print_help(sys.stderr)
         sys.exit()
 
-    if not args.sources:
-        logging.error("Need at least one source (e.g. -s gelbooru)")
+    if not args.boorus:
+        logging.error("Need at least one booru (e.g. -s gelbooru)")
         sys.exit()
 
     if args.safe_for_work and args.not_safe_for_work:
@@ -161,21 +173,4 @@ if __name__ == "__main__":
         os.makedirs(target_directory_name)
         logging.info(f"Created directory {target_directory_name}.")
 
-    for source in args.sources:
-        logging.info(f"Current source: {source}.")
-
-        if args.all:
-            while True:
-                if new_request(args.tags, args.exclude, args.count, target_directory_path, source,
-                               increment_number) is None:
-                    break
-                increment_number += 1
-        elif source == 'zerochan':
-            logging.debug(f"Sleeping for {source}")
-            sleep(1)
-
-            new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
-        else:
-            new_request(args.tags, args.exclude, args.count, target_directory_path, source, increment_number)
-
-        increment_number = 0
+    process_boorus(args.boorus, args.tags, args.exclude, args.count, target_directory_path, args.all)

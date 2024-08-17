@@ -14,8 +14,8 @@ class ArgParser:
                                  action=argparse.BooleanOptionalAction)
         self.parser.add_argument('-a', '--all', help='download ALL images with specified tags', default=False,
                                  action=argparse.BooleanOptionalAction)
-        self.parser.add_argument('-s', '--sources',
-                                 help='specify sources from which to download (e.g. -s gelbooru,danbooru)',
+        self.parser.add_argument('-b', '--boorus',
+                                 help='specify boorus from which to download (e.g. -s gelbooru,danbooru)',
                                  action=SplitArguments)
         self.parser.add_argument('-sfw', '--safe-for-work', help='download only sfw images', default=False,
                                  action=argparse.BooleanOptionalAction)
