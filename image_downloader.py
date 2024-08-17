@@ -1,5 +1,7 @@
 import logging
+import random
 from http import HTTPStatus
+from time import sleep
 
 import requests
 from fake_useragent import UserAgent
@@ -39,3 +41,5 @@ class ImageDownloader:
 
         if expected_size != 0 and progress_bar.n != expected_size:
             logging.error(f"Something went wrong while storing {self.filename}")
+
+        sleep(random.uniform(0.5, 1.5))
