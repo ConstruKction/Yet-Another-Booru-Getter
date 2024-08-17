@@ -39,7 +39,7 @@ class ImageFactory:
             return logging.error(f"Couldn't link Image Object to source: '{booru_name}'.")
 
     @staticmethod
-    def get_safety_rating(booru_name: str, safety_rating: str) -> str:
+    def get_safety_rating(booru_name: str, safety_rating: str) -> Union[str, None]:
         if booru_name == 'gelbooru':
             return 'sfw' if safety_rating not in GELBOORU_NSFW_RATINGS else 'nsfw'
         elif booru_name == 'danbooru':
@@ -55,4 +55,4 @@ class ImageFactory:
         elif booru_name == 'atf':
             return 'sfw' if safety_rating not in ATF_NSFW_RATINGS else 'nsfw'
         else:
-            return ''
+            return logging.error(f"Couldn't determine safety rating for: {booru_name}")
